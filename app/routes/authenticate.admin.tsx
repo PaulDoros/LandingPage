@@ -1,42 +1,99 @@
-import { json, redirect } from '@remix-run/node';
+import { json, redirect, type ActionFunctionArgs, type LoaderFunctionArgs } from '@remix-run/node';
 import { Form, useActionData } from '@remix-run/react';
-import { supabase } from '~/lib/supabase/client';
+import { createServerClient } from '@supabase/auth-helpers-remix';
 
-interface ActionData {
-  error?: string;
+export async function loader({ request }: LoaderFunctionArgs) {
+  const response = new Response();
+  const supabase = createServerClient(
+    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_ANON_KEY!,
+    { request, response }
+  );
+
+  // Get authenticated user data from Supabase Auth server
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
+
+  // If already logged in, check if user is admin
+  if (user && !userError) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single();
+
+    if (profile?.role === 'admin') {
+      return redirect('/admin', {
+        headers: response.headers,
+      });
+    }
+
+    // If not admin, sign them out
+    await supabase.auth.signOut();
+  }
+
+  return json({}, {
+    headers: response.headers,
+  });
 }
 
-export const action = async ({ request }: { request: Request }) => {
+export async function action({ request }: ActionFunctionArgs) {
+  const response = new Response();
+  const supabase = createServerClient(
+    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_ANON_KEY!,
+    { request, response }
+  );
+
   const formData = await request.formData();
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
 
   if (!email || !password) {
-    return json<ActionData>(
+    return json(
       { error: 'Email and password are required' },
-      { status: 400 }
+      { status: 400, headers: response.headers }
     );
   }
 
-  try {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+  const { data, error: authError } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
 
-    if (error) throw error;
-
-    return redirect('/admin');
-  } catch (error) {
-    if (error instanceof Error) {
-      return json<ActionData>({ error: error.message }, { status: 400 });
-    }
-    return json<ActionData>(
-      { error: 'An unexpected error occurred' },
-      { status: 500 }
+  if (authError) {
+    return json(
+      { error: authError.message },
+      { status: 400, headers: response.headers }
     );
   }
-};
+
+  // Check if user is an admin
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', data.user.id)
+    .single();
+
+  if (profileError || !profile) {
+    await supabase.auth.signOut();
+    return json(
+      { error: 'Profile not found' },
+      { status: 400, headers: response.headers }
+    );
+  }
+
+  if (profile.role !== 'admin') {
+    await supabase.auth.signOut();
+    return json(
+      { error: 'Unauthorized access. Admin privileges required.' },
+      { status: 403, headers: response.headers }
+    );
+  }
+
+  return redirect('/admin', {
+    headers: response.headers,
+  });
+}
 
 export default function AdminLogin() {
   const actionData = useActionData<typeof action>();

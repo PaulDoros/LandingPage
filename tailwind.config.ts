@@ -1,10 +1,8 @@
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss';
 
 export default {
-  darkMode: 'selector',
-  content: [
-    "./app/**/*.{js,jsx,ts,tsx}",
-  ],
+  darkMode: 'class',
+  content: ['./app/**/*.{js,jsx,ts,tsx}'],
   theme: {
     container: {
       center: true,
@@ -15,25 +13,67 @@ export default {
     },
     extend: {
       colors: {
-        background: 'var(--background)',
-        foreground: 'var(--foreground)',
-        card: 'var(--card)',
-        'card-foreground': 'var(--card-foreground)',
-        popover: 'var(--popover)',
-        'popover-foreground': 'var(--popover-foreground)',
-        primary: 'var(--primary)',
-        'primary-foreground': 'var(--primary-foreground)',
-        secondary: 'var(--secondary)',
-        'secondary-foreground': 'var(--secondary-foreground)',
-        muted: 'var(--muted)',
-        'muted-foreground': 'var(--muted-foreground)',
-        accent: 'var(--accent)',
-        'accent-foreground': 'var(--accent-foreground)',
-        destructive: 'var(--destructive)',
-        'destructive-foreground': 'var(--destructive-foreground)',
-        border: 'var(--border)',
-        input: 'var(--input)',
-        ring: 'var(--ring)',
+        black: 'rgb(var(--color-black))',
+        white: 'rgb(var(--color-white))',
+        primary: {
+          '50': 'rgb(var(--color-primary-50))',
+          '100': 'rgb(var(--color-primary-100))',
+          '200': 'rgb(var(--color-primary-200))',
+          '300': 'rgb(var(--color-primary-300))',
+          '400': 'rgb(var(--color-primary-400))',
+          '500': 'rgb(var(--color-primary-500))',
+          '600': 'rgb(var(--color-primary-600))',
+          '700': 'rgb(var(--color-primary-700))',
+          '800': 'rgb(var(--color-primary-800))',
+          '900': 'rgb(var(--color-primary-900))',
+          '950': 'rgb(var(--color-primary-950))',
+        },
+        gray: {
+          '50': 'rgb(var(--color-gray-50))',
+          '100': 'rgb(var(--color-gray-100))',
+          '200': 'rgb(var(--color-gray-200))',
+          '300': 'rgb(var(--color-gray-300))',
+          '400': 'rgb(var(--color-gray-400))',
+          '500': 'rgb(var(--color-gray-500))',
+          '600': 'rgb(var(--color-gray-600))',
+          '700': 'rgb(var(--color-gray-700))',
+          '800': 'rgb(var(--color-gray-800))',
+          '900': 'rgb(var(--color-gray-900))',
+          '950': 'rgb(var(--color-gray-950))',
+        },
+        destructive: {
+          '50': 'rgb(var(--color-destructive-50))',
+          '100': 'rgb(var(--color-destructive-100))',
+          '200': 'rgb(var(--color-destructive-200))',
+          '300': 'rgb(var(--color-destructive-300))',
+          '400': 'rgb(var(--color-destructive-400))',
+          '500': 'rgb(var(--color-destructive-500))',
+          '600': 'rgb(var(--color-destructive-600))',
+          '700': 'rgb(var(--color-destructive-700))',
+          '800': 'rgb(var(--color-destructive-800))',
+          '900': 'rgb(var(--color-destructive-900))',
+          '950': 'rgb(var(--color-destructive-950))',
+        },
+        background: 'rgb(var(--color-background))',
+        foreground: 'rgb(var(--color-foreground))',
+        muted: {
+          DEFAULT: 'rgb(var(--color-muted))',
+          foreground: 'rgb(var(--color-muted-foreground))',
+        },
+        card: {
+          DEFAULT: 'rgb(var(--color-card))',
+          foreground: 'rgb(var(--color-card-foreground))',
+        },
+        accent: {
+          DEFAULT: 'rgb(var(--color-accent))',
+          foreground: 'rgb(var(--color-accent-foreground))',
+        },
+        border: 'rgb(var(--color-border))',
+        input: 'rgb(var(--color-input))',
+        ring: 'rgb(var(--color-ring))',
+      },
+      opacity: {
+        '15': '0.15',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -56,4 +96,5 @@ export default {
       },
     },
   },
+  plugins: [],
 } satisfies Config;
