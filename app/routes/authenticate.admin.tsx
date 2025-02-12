@@ -1,4 +1,9 @@
-import { json, redirect, type ActionFunctionArgs, type LoaderFunctionArgs } from '@remix-run/node';
+import {
+  json,
+  redirect,
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
+} from '@remix-run/node';
 import { Form, useActionData } from '@remix-run/react';
 import { createServerClient } from '@supabase/auth-helpers-remix';
 
@@ -7,11 +12,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const supabase = createServerClient(
     process.env.SUPABASE_URL!,
     process.env.SUPABASE_ANON_KEY!,
-    { request, response }
+    { request, response },
   );
 
   // Get authenticated user data from Supabase Auth server
-  const { data: { user }, error: userError } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
 
   // If already logged in, check if user is admin
   if (user && !userError) {
@@ -31,9 +39,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
     await supabase.auth.signOut();
   }
 
-  return json({}, {
-    headers: response.headers,
-  });
+  return json(
+    {},
+    {
+      headers: response.headers,
+    },
+  );
 }
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -41,7 +52,7 @@ export async function action({ request }: ActionFunctionArgs) {
   const supabase = createServerClient(
     process.env.SUPABASE_URL!,
     process.env.SUPABASE_ANON_KEY!,
-    { request, response }
+    { request, response },
   );
 
   const formData = await request.formData();
@@ -51,7 +62,7 @@ export async function action({ request }: ActionFunctionArgs) {
   if (!email || !password) {
     return json(
       { error: 'Email and password are required' },
-      { status: 400, headers: response.headers }
+      { status: 400, headers: response.headers },
     );
   }
 
@@ -63,7 +74,7 @@ export async function action({ request }: ActionFunctionArgs) {
   if (authError) {
     return json(
       { error: authError.message },
-      { status: 400, headers: response.headers }
+      { status: 400, headers: response.headers },
     );
   }
 
@@ -78,7 +89,7 @@ export async function action({ request }: ActionFunctionArgs) {
     await supabase.auth.signOut();
     return json(
       { error: 'Profile not found' },
-      { status: 400, headers: response.headers }
+      { status: 400, headers: response.headers },
     );
   }
 
@@ -86,7 +97,7 @@ export async function action({ request }: ActionFunctionArgs) {
     await supabase.auth.signOut();
     return json(
       { error: 'Unauthorized access. Admin privileges required.' },
-      { status: 403, headers: response.headers }
+      { status: 403, headers: response.headers },
     );
   }
 
@@ -99,20 +110,20 @@ export default function AdminLogin() {
   const actionData = useActionData<typeof action>();
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="w-full max-w-md space-y-8 rounded-lg border bg-card p-6 shadow-lg">
+    <div className="bg-background flex min-h-screen items-center justify-center">
+      <div className="bg-card w-full max-w-md space-y-8 rounded-lg border p-6 shadow-lg">
         <div className="text-center">
-          <h2 className="text-2xl font-bold tracking-tight text-card-foreground">
+          <h2 className="text-card-foreground text-2xl font-bold tracking-tight">
             Admin Login
           </h2>
-          <p className="mt-2 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-2 text-sm">
             Sign in to access your admin dashboard
           </p>
         </div>
 
         <Form method="post" className="mt-8 space-y-6">
           {actionData?.error && (
-            <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
+            <div className="bg-destructive/15 text-destructive rounded-md p-3 text-sm">
               {actionData.error}
             </div>
           )}
@@ -121,7 +132,7 @@ export default function AdminLogin() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-foreground"
+                className="text-foreground block text-sm font-medium"
               >
                 Email address
               </label>
@@ -131,14 +142,14 @@ export default function AdminLogin() {
                 type="email"
                 autoComplete="email"
                 required
-                className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-foreground shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className="border-input bg-background text-foreground focus:border-primary focus:ring-primary mt-1 block w-full rounded-md border px-3 py-2 shadow-sm focus:ring-1 focus:outline-none"
               />
             </div>
 
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-foreground"
+                className="text-foreground block text-sm font-medium"
               >
                 Password
               </label>
@@ -148,7 +159,7 @@ export default function AdminLogin() {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-foreground shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className="border-input bg-background text-foreground focus:border-primary focus:ring-primary mt-1 block w-full rounded-md border px-3 py-2 shadow-sm focus:ring-1 focus:outline-none"
               />
             </div>
           </div>
@@ -156,7 +167,7 @@ export default function AdminLogin() {
           <div>
             <button
               type="submit"
-              className="flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:outline-primary flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
             >
               Sign in
             </button>
@@ -165,4 +176,4 @@ export default function AdminLogin() {
       </div>
     </div>
   );
-} 
+}

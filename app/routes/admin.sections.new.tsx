@@ -1,10 +1,15 @@
-import { json, redirect, type ActionFunctionArgs, type LoaderFunctionArgs } from '@remix-run/node';
+import {
+  json,
+  redirect,
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
+} from '@remix-run/node';
 import { Form, useLoaderData, useNavigation, Link } from '@remix-run/react';
 import { createServerClient } from '@supabase/auth-helpers-remix';
 import { useState } from 'react';
-import type { SectionType } from '~/types/section';
+import type { SectionStyles, SectionType } from '~/types/section';
 import { getInitialContent } from '~/lib/section-templates';
-import { defaultSectionStyles } from '~/lib/section-defaults';
+import { getDefaultStylesForType } from '~/lib/section-defaults';
 import { SectionTypeSelector } from '~/components/sections/section-type-selector';
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -12,7 +17,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const supabase = createServerClient(
     process.env.SUPABASE_URL!,
     process.env.SUPABASE_ANON_KEY!,
-    { request, response }
+    { request, response },
   );
 
   // Get the landing page id
@@ -35,7 +40,7 @@ export async function action({ request }: ActionFunctionArgs) {
   const supabase = createServerClient(
     process.env.SUPABASE_URL!,
     process.env.SUPABASE_ANON_KEY!,
-    { request, response }
+    { request, response },
   );
 
   const formData = await request.formData();
@@ -54,14 +59,15 @@ export async function action({ request }: ActionFunctionArgs) {
 
   // Create initial content based on section type
   const initialContent = getInitialContent(type);
+  const defaultStyles = getDefaultStylesForType(type as SectionStyles['type']);
 
   const { error } = await supabase.from('sections').insert({
     landing_page_id: landingPageId,
     type,
     content: initialContent,
-    styles: defaultSectionStyles,
+    styles: defaultStyles,
     position,
-    is_visible: true
+    is_visible: true,
   });
 
   if (error) {
@@ -83,17 +89,17 @@ export default function NewSection() {
         <h1 className="text-3xl font-bold">Add New Section</h1>
         <Link
           to="/admin/sections"
-          className="rounded-md border border-input bg-background px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground"
+          className="border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md border px-4 py-2 text-sm font-medium"
         >
           Cancel
         </Link>
       </div>
 
-      <div className="rounded-lg border bg-card p-6">
+      <div className="bg-card rounded-lg border p-6">
         <Form method="post" className="space-y-8">
           <input type="hidden" name="landingPageId" value={landingPageId} />
           <input type="hidden" name="type" value={selectedType} />
-          
+
           <SectionTypeSelector
             selectedType={selectedType}
             onChange={setSelectedType}
@@ -103,7 +109,7 @@ export default function NewSection() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-4 py-2 text-sm font-medium disabled:opacity-50"
             >
               {isSubmitting ? 'Creating...' : 'Create Section'}
             </button>
@@ -112,4 +118,4 @@ export default function NewSection() {
       </div>
     </div>
   );
-} 
+}

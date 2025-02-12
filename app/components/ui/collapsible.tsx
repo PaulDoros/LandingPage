@@ -14,9 +14,9 @@ const CollapsibleTrigger = React.forwardRef<
       'flex w-full items-center justify-between rounded-lg py-4 text-sm font-medium',
       'transition-all duration-300 ease-in-out',
       'hover:bg-accent/50 hover:pl-2',
-      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+      'focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
       'collapsible-trigger',
-      className
+      className,
     )}
     {...props}
   >
@@ -45,18 +45,12 @@ const CollapsibleContent = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <CollapsiblePrimitive.Content
     ref={ref}
-    className={cn(
-      'overflow-hidden',
-      'collapsible-content',
-      className
-    )}
+    className={cn('overflow-hidden', 'collapsible-content', className)}
     {...props}
   >
-    <div className="pt-2 pb-4">
-      {children}
-    </div>
+    <div className="pt-2 pb-4">{children}</div>
   </CollapsiblePrimitive.Content>
 ));
 CollapsibleContent.displayName = CollapsiblePrimitive.Content.displayName;
 
-export { Collapsible, CollapsibleTrigger, CollapsibleContent }; 
+export { Collapsible, CollapsibleTrigger, CollapsibleContent };

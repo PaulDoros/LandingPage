@@ -1,4 +1,8 @@
-import { json, type ActionFunctionArgs, type LoaderFunctionArgs } from '@remix-run/node';
+import {
+  json,
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
+} from '@remix-run/node';
 import { Form, useLoaderData, Link, useNavigation } from '@remix-run/react';
 import { createServerClient } from '@supabase/auth-helpers-remix';
 import { useState, useEffect } from 'react';
@@ -33,7 +37,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const supabase = createServerClient(
     process.env.SUPABASE_URL!,
     process.env.SUPABASE_ANON_KEY!,
-    { request, response }
+    { request, response },
   );
 
   // Get the current theme
@@ -68,30 +72,33 @@ export async function loader({ request }: LoaderFunctionArgs) {
       throw new Error('Failed to create default theme');
     }
 
-    return json<LoaderData>({
-      theme: {
-        colors: {
-          primary: newTheme.primary_color,
-          secondary: newTheme.secondary_color,
-          background: newTheme.background_color,
-          text: newTheme.text_color,
-          accent: newTheme.accent_color,
+    return json<LoaderData>(
+      {
+        theme: {
+          colors: {
+            primary: newTheme.primary_color,
+            secondary: newTheme.secondary_color,
+            background: newTheme.background_color,
+            text: newTheme.text_color,
+            accent: newTheme.accent_color,
+          },
+          typography: {
+            fontFamily: newTheme.font_family,
+            fontSize: {
+              base: '16px',
+              heading1: '48px',
+              heading2: '36px',
+              heading3: '24px',
+              paragraph: '16px',
+            },
+          },
         },
-        typography: {
-          fontFamily: newTheme.font_family,
-          fontSize: {
-            base: '16px',
-            heading1: '48px',
-            heading2: '36px',
-            heading3: '24px',
-            paragraph: '16px',
-          }
-        }
+        themeId: newTheme.id,
       },
-      themeId: newTheme.id
-    }, {
-      headers: response.headers
-    });
+      {
+        headers: response.headers,
+      },
+    );
   }
 
   if (error || !theme) {
@@ -99,30 +106,33 @@ export async function loader({ request }: LoaderFunctionArgs) {
     throw new Error('Theme not found');
   }
 
-  return json<LoaderData>({
-    theme: {
-      colors: {
-        primary: theme.primary_color,
-        secondary: theme.secondary_color,
-        background: theme.background_color,
-        text: theme.text_color,
-        accent: theme.accent_color,
+  return json<LoaderData>(
+    {
+      theme: {
+        colors: {
+          primary: theme.primary_color,
+          secondary: theme.secondary_color,
+          background: theme.background_color,
+          text: theme.text_color,
+          accent: theme.accent_color,
+        },
+        typography: {
+          fontFamily: theme.font_family,
+          fontSize: {
+            base: '16px',
+            heading1: '48px',
+            heading2: '36px',
+            heading3: '24px',
+            paragraph: '16px',
+          },
+        },
       },
-      typography: {
-        fontFamily: theme.font_family,
-        fontSize: {
-          base: '16px',
-          heading1: '48px',
-          heading2: '36px',
-          heading3: '24px',
-          paragraph: '16px',
-        }
-      }
+      themeId: theme.id,
     },
-    themeId: theme.id
-  }, {
-    headers: response.headers
-  });
+    {
+      headers: response.headers,
+    },
+  );
 }
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -130,7 +140,7 @@ export async function action({ request }: ActionFunctionArgs) {
   const supabase = createServerClient(
     process.env.SUPABASE_URL!,
     process.env.SUPABASE_ANON_KEY!,
-    { request, response }
+    { request, response },
   );
 
   const formData = await request.formData();
@@ -139,7 +149,7 @@ export async function action({ request }: ActionFunctionArgs) {
   if (!themeId) {
     return json(
       { error: 'Theme ID is required' },
-      { status: 400, headers: response.headers }
+      { status: 400, headers: response.headers },
     );
   }
 
@@ -164,19 +174,16 @@ export async function action({ request }: ActionFunctionArgs) {
       console.error('Error updating theme:', updateError);
       return json(
         { error: updateError.message },
-        { status: 400, headers: response.headers }
+        { status: 400, headers: response.headers },
       );
     }
 
-    return json(
-      { success: true },
-      { headers: response.headers }
-    );
+    return json({ success: true }, { headers: response.headers });
   } catch (error) {
     console.error('Error in action:', error);
     return json(
       { error: 'Failed to update theme' },
-      { status: 500, headers: response.headers }
+      { status: 500, headers: response.headers },
     );
   }
 }
@@ -189,19 +196,23 @@ export default function AdminTheme() {
   const isSubmitting = navigation.state === 'submitting';
 
   // Handle color change from either color picker or text input
-  const handleColorChange = (value: string, type: keyof typeof colors, isFromPicker = false) => {
+  const handleColorChange = (
+    value: string,
+    type: keyof typeof colors,
+    isFromPicker = false,
+  ) => {
     let newValue = value.toLowerCase();
-    
+
     // If from text input, handle # prefix
     if (!isFromPicker) {
       newValue = newValue.startsWith('#') ? newValue : `#${newValue}`;
     }
-    
+
     // Validate hex color format
     const isValidHex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i.test(newValue);
-    
+
     if (isValidHex) {
-      setPreviewStyles(prev => ({ ...prev, [type]: newValue }));
+      setPreviewStyles((prev) => ({ ...prev, [type]: newValue }));
     }
   };
 
@@ -217,7 +228,7 @@ export default function AdminTheme() {
         <div className="flex gap-4">
           <Link
             to="/admin"
-            className="rounded-md border border-input bg-background px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground"
+            className="border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md border px-4 py-2 text-sm font-medium"
           >
             Back to Dashboard
           </Link>
@@ -226,14 +237,17 @@ export default function AdminTheme() {
 
       <Form method="post" className="space-y-8">
         <input type="hidden" name="themeId" value={themeId} />
-        
+
         {/* Colors */}
-        <div className="rounded-lg border bg-card p-6">
-          <h2 className="text-xl font-semibold mb-4">Colors</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-card rounded-lg border p-6">
+          <h2 className="mb-4 text-xl font-semibold">Colors</h2>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {Object.entries(previewStyles).map(([key, value]) => (
               <div key={key} className="space-y-2">
-                <label htmlFor={key} className="block text-sm font-medium capitalize">
+                <label
+                  htmlFor={key}
+                  className="block text-sm font-medium capitalize"
+                >
                   {key} Color
                 </label>
                 <div className="flex gap-2">
@@ -242,7 +256,13 @@ export default function AdminTheme() {
                     name={key}
                     id={`${key}-picker`}
                     value={value}
-                    onChange={(e) => handleColorChange(e.target.value, key as keyof typeof colors, true)}
+                    onChange={(e) =>
+                      handleColorChange(
+                        e.target.value,
+                        key as keyof typeof colors,
+                        true,
+                      )
+                    }
                     className="h-10 w-20"
                   />
                   <input
@@ -250,9 +270,15 @@ export default function AdminTheme() {
                     name={key}
                     id={key}
                     value={value}
-                    onChange={(e) => handleColorChange(e.target.value, key as keyof typeof colors, false)}
+                    onChange={(e) =>
+                      handleColorChange(
+                        e.target.value,
+                        key as keyof typeof colors,
+                        false,
+                      )
+                    }
                     placeholder="Enter hex color (#RRGGBB)"
-                    className="flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm"
+                    className="border-input bg-background flex-1 rounded-md border px-3 py-2 text-sm"
                   />
                 </div>
               </div>
@@ -265,7 +291,7 @@ export default function AdminTheme() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isSubmitting ? (
               <>
@@ -280,4 +306,4 @@ export default function AdminTheme() {
       </Form>
     </div>
   );
-} 
+}

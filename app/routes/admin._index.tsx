@@ -22,7 +22,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const supabase = createServerClient(
     process.env.SUPABASE_URL!,
     process.env.SUPABASE_ANON_KEY!,
-    { request, response }
+    { request, response },
   );
 
   // First get the landing page id
@@ -49,17 +49,20 @@ export async function loader({ request }: LoaderFunctionArgs) {
     throw new Error('Failed to load sections');
   }
 
-  return json<LoaderData>({
-    sections,
-    theme: landingPage.theme as LoaderData['theme']
-  }, {
-    headers: response.headers
-  });
+  return json<LoaderData>(
+    {
+      sections,
+      theme: landingPage.theme as LoaderData['theme'],
+    },
+    {
+      headers: response.headers,
+    },
+  );
 }
 
 export default function AdminIndex() {
   const { sections, theme } = useLoaderData<typeof loader>();
-console.log(sections)
+  console.log(sections);
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
@@ -67,26 +70,26 @@ console.log(sections)
         <div className="flex gap-4">
           <Link
             to="/admin/theme"
-            className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-4 py-2 text-sm font-medium"
           >
             Edit Theme
           </Link>
           <Link
             to="/admin/content"
-            className="rounded-md border border-input bg-background px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground"
+            className="border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md border px-4 py-2 text-sm font-medium"
           >
             Add Content block
           </Link>
           <Link
             to="/admin/sections"
-            className="rounded-md border border-input bg-background px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground"
+            className="border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md border px-4 py-2 text-sm font-medium"
           >
             Edit Sections
           </Link>
           <Link
             to="/"
             target="_blank"
-            className="rounded-md border border-input bg-background px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground"
+            className="border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md border px-4 py-2 text-sm font-medium"
           >
             View Live Site
           </Link>
@@ -94,44 +97,43 @@ console.log(sections)
       </div>
 
       {/* Preview Frame */}
-      <div className="rounded-lg border border-border/40 bg-background shadow-sm">
-        <div className="border-b border-border/40 bg-card p-4">
+      <div className="border-border/40 bg-background rounded-lg border shadow-sm">
+        <div className="border-border/40 bg-card border-b p-4">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-medium">Preview</h2>
             <div className="flex gap-2">
-              <button className="rounded-md border border-input bg-background px-3 py-1 text-sm hover:bg-accent hover:text-accent-foreground">
+              <button className="border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md border px-3 py-1 text-sm">
                 Desktop
               </button>
-              <button className="rounded-md border border-input bg-background px-3 py-1 text-sm hover:bg-accent hover:text-accent-foreground">
+              <button className="border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md border px-3 py-1 text-sm">
                 Tablet
               </button>
-              <button className="rounded-md border border-input bg-background px-3 py-1 text-sm hover:bg-accent hover:text-accent-foreground">
+              <button className="border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md border px-3 py-1 text-sm">
                 Mobile
               </button>
             </div>
           </div>
         </div>
-        
-        <div 
+
+        <div
           className="p-4"
-          style={{
-            '--color-primary': theme.colors.primary,
-            '--color-secondary': theme.colors.secondary,
-            '--color-background': theme.colors.background,
-            '--color-text': theme.colors.text,
-            '--color-accent': theme.colors.accent,
-          } as React.CSSProperties}
+          style={
+            {
+              '--color-primary': theme.colors.primary,
+              '--color-secondary': theme.colors.secondary,
+              '--color-background': theme.colors.background,
+              '--color-text': theme.colors.text,
+              '--color-accent': theme.colors.accent,
+            } as React.CSSProperties
+          }
         >
-          {sections.map(section => (
-            <div key={section.id} className="relative group">
-              <SectionRenderer
-                section={section}
-                className="py-12 md:py-16"
-              />
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-black/5 flex items-center justify-center">
+          {sections.map((section) => (
+            <div key={section.id} className="group relative">
+              <SectionRenderer section={section} className="py-12 md:py-16" />
+              <div className="absolute inset-0 flex items-center justify-center bg-black/5 opacity-0 transition-opacity group-hover:opacity-100">
                 <Link
                   to={`/admin/sections/${section.id}`}
-                  className="bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-4 py-2 text-sm font-medium"
                 >
                   Edit Section
                 </Link>
@@ -142,4 +144,4 @@ console.log(sections)
       </div>
     </div>
   );
-} 
+}

@@ -1,7 +1,13 @@
 import { useState } from 'react';
 import { Button } from './button';
 import { Input } from './input';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from './dialog';
 
 interface IconPickerProps {
   label: string;
@@ -13,36 +19,36 @@ interface IconPickerProps {
 const defaultIcons = [
   {
     url: 'https://api.iconify.design/heroicons:paint-brush.svg',
-    title: 'Paint Brush'
+    title: 'Paint Brush',
   },
   {
     url: 'https://api.iconify.design/heroicons:device-phone-mobile.svg',
-    title: 'Mobile Device'
+    title: 'Mobile Device',
   },
   {
     url: 'https://api.iconify.design/heroicons:rocket-launch.svg',
-    title: 'Rocket Launch'
+    title: 'Rocket Launch',
   },
   {
     url: 'https://api.iconify.design/heroicons:chart-bar.svg',
-    title: 'Chart Bar'
+    title: 'Chart Bar',
   },
   {
     url: 'https://api.iconify.design/heroicons:cog.svg',
-    title: 'Settings'
+    title: 'Settings',
   },
   {
     url: 'https://api.iconify.design/heroicons:user.svg',
-    title: 'User'
+    title: 'User',
   },
   {
     url: 'https://api.iconify.design/heroicons:envelope.svg',
-    title: 'Envelope'
+    title: 'Envelope',
   },
   {
     url: 'https://api.iconify.design/heroicons:globe-alt.svg',
-    title: 'Globe'
-  }
+    title: 'Globe',
+  },
 ];
 
 export function IconPicker({ label, name, value, onChange }: IconPickerProps) {
@@ -60,7 +66,7 @@ export function IconPicker({ label, name, value, onChange }: IconPickerProps) {
 
   return (
     <div className="space-y-2">
-      <label className="block text-sm font-medium text-foreground">
+      <label className="text-foreground block text-sm font-medium">
         {label}
       </label>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -71,11 +77,7 @@ export function IconPicker({ label, name, value, onChange }: IconPickerProps) {
           >
             {value ? (
               <div className="flex items-center gap-2">
-                <img
-                  src={value}
-                  alt="Selected Icon"
-                  className="h-5 w-5"
-                />
+                <img src={value} alt="Selected Icon" className="h-5 w-5" />
                 <span className="truncate">{value}</span>
               </div>
             ) : (
@@ -102,17 +104,13 @@ export function IconPicker({ label, name, value, onChange }: IconPickerProps) {
               {defaultIcons.map((icon) => (
                 <button
                   key={icon.url}
-                  className="flex aspect-square items-center justify-center rounded-lg border p-2 hover:bg-accent"
+                  className="hover:bg-accent flex aspect-square items-center justify-center rounded-lg border p-2"
                   onClick={() => {
                     onChange(icon.url);
                     setIsOpen(false);
                   }}
                 >
-                  <img
-                    src={icon.url}
-                    alt={icon.title}
-                    className="h-6 w-6"
-                  />
+                  <img src={icon.url} alt={icon.title} className="h-6 w-6" />
                 </button>
               ))}
             </div>
@@ -122,4 +120,4 @@ export function IconPicker({ label, name, value, onChange }: IconPickerProps) {
       <input type="hidden" name={name} value={value || ''} />
     </div>
   );
-} 
+}

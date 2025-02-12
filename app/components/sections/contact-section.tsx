@@ -20,20 +20,21 @@ interface ContactSectionProps {
 }
 
 export function ContactSection({ content, themeStyles }: ContactSectionProps) {
-  const { title, subtitle, email, phone, address, formTitle, formSubtitle } = content;
+  const { title, subtitle, email, phone, address, formTitle, formSubtitle } =
+    content;
 
   return (
     <div className="container mx-auto px-4 py-16 md:py-24">
-      <div className="text-center mb-12">
-        <h2 
-          className="text-3xl md:text-4xl font-bold mb-4"
+      <div className="mb-12 text-center">
+        <h2
+          className="mb-4 text-3xl font-bold md:text-4xl"
           style={{ color: themeStyles?.text }}
         >
           {title}
         </h2>
         {subtitle && (
-          <p 
-            className="text-xl text-muted-foreground max-w-2xl mx-auto"
+          <p
+            className="text-muted-foreground mx-auto max-w-2xl text-xl"
             style={{ color: themeStyles?.text }}
           >
             {subtitle}
@@ -43,7 +44,7 @@ export function ContactSection({ content, themeStyles }: ContactSectionProps) {
       <div className="grid gap-8 md:grid-cols-2">
         <div className="space-y-8">
           {formTitle && (
-            <h3 
+            <h3
               className="text-2xl font-bold"
               style={{ color: themeStyles?.text }}
             >
@@ -51,7 +52,7 @@ export function ContactSection({ content, themeStyles }: ContactSectionProps) {
             </h3>
           )}
           {formSubtitle && (
-            <p 
+            <p
               className="text-muted-foreground"
               style={{ color: themeStyles?.text }}
             >
@@ -60,9 +61,9 @@ export function ContactSection({ content, themeStyles }: ContactSectionProps) {
           )}
           <form className="space-y-6">
             <div>
-              <label 
-                htmlFor="name" 
-                className="block text-sm font-medium mb-2"
+              <label
+                htmlFor="name"
+                className="mb-2 block text-sm font-medium"
                 style={{ color: themeStyles?.text }}
               >
                 Name
@@ -72,18 +73,18 @@ export function ContactSection({ content, themeStyles }: ContactSectionProps) {
                 id="name"
                 name="name"
                 className="w-full rounded-md border px-3 py-2"
-                style={{ 
+                style={{
                   borderColor: `${themeStyles?.text}20`,
                   backgroundColor: themeStyles?.background,
-                  color: themeStyles?.text
+                  color: themeStyles?.text,
                 }}
                 required
               />
             </div>
             <div>
-              <label 
-                htmlFor="email" 
-                className="block text-sm font-medium mb-2"
+              <label
+                htmlFor="email"
+                className="mb-2 block text-sm font-medium"
                 style={{ color: themeStyles?.text }}
               >
                 Email
@@ -93,18 +94,18 @@ export function ContactSection({ content, themeStyles }: ContactSectionProps) {
                 id="email"
                 name="email"
                 className="w-full rounded-md border px-3 py-2"
-                style={{ 
+                style={{
                   borderColor: `${themeStyles?.text}20`,
                   backgroundColor: themeStyles?.background,
-                  color: themeStyles?.text
+                  color: themeStyles?.text,
                 }}
                 required
               />
             </div>
             <div>
-              <label 
-                htmlFor="message" 
-                className="block text-sm font-medium mb-2"
+              <label
+                htmlFor="message"
+                className="mb-2 block text-sm font-medium"
                 style={{ color: themeStyles?.text }}
               >
                 Message
@@ -114,10 +115,10 @@ export function ContactSection({ content, themeStyles }: ContactSectionProps) {
                 name="message"
                 rows={4}
                 className="w-full rounded-md border px-3 py-2"
-                style={{ 
+                style={{
                   borderColor: `${themeStyles?.text}20`,
                   backgroundColor: themeStyles?.background,
-                  color: themeStyles?.text
+                  color: themeStyles?.text,
                 }}
                 required
               />
@@ -125,9 +126,9 @@ export function ContactSection({ content, themeStyles }: ContactSectionProps) {
             <button
               type="submit"
               className="w-full rounded-md px-4 py-2 font-medium transition-colors hover:opacity-90"
-              style={{ 
+              style={{
                 backgroundColor: themeStyles?.primary,
-                color: '#ffffff'
+                color: '#ffffff',
               }}
             >
               Send Message
@@ -136,8 +137,8 @@ export function ContactSection({ content, themeStyles }: ContactSectionProps) {
         </div>
         <div className="space-y-8">
           <div>
-            <h3 
-              className="text-2xl font-bold mb-4"
+            <h3
+              className="mb-4 text-2xl font-bold"
               style={{ color: themeStyles?.text }}
             >
               Contact Information
@@ -153,7 +154,7 @@ export function ContactSection({ content, themeStyles }: ContactSectionProps) {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="w-5 h-5"
+                    className="h-5 w-5"
                     style={{ color: themeStyles?.primary }}
                   >
                     <rect width="20" height="16" x="2" y="4" rx="2" />
@@ -172,7 +173,7 @@ export function ContactSection({ content, themeStyles }: ContactSectionProps) {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="w-5 h-5"
+                    className="h-5 w-5"
                     style={{ color: themeStyles?.primary }}
                   >
                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
@@ -190,7 +191,7 @@ export function ContactSection({ content, themeStyles }: ContactSectionProps) {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="w-5 h-5"
+                    className="h-5 w-5"
                     style={{ color: themeStyles?.primary }}
                   >
                     <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
@@ -205,4 +206,4 @@ export function ContactSection({ content, themeStyles }: ContactSectionProps) {
       </div>
     </div>
   );
-} 
+}

@@ -1,13 +1,29 @@
-import { json, type ActionFunctionArgs, type LoaderFunctionArgs } from '@remix-run/node';
+import {
+  json,
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
+} from '@remix-run/node';
 import { Form, useLoaderData, Link, useNavigation } from '@remix-run/react';
 import { createServerClient } from '@supabase/auth-helpers-remix';
 import { useState, useEffect } from 'react';
-import { DragDropContext, Droppable, Draggable, type DropResult } from '@hello-pangea/dnd';
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  type DropResult,
+} from '@hello-pangea/dnd';
 
 interface ContentBlock {
   id: string;
   section_id: string;
-  block_type: 'heading' | 'text' | 'button' | 'image' | 'video' | 'html' | 'card';
+  block_type:
+    | 'heading'
+    | 'text'
+    | 'button'
+    | 'image'
+    | 'video'
+    | 'html'
+    | 'card';
   content: {
     title?: string;
     description?: string;
@@ -61,7 +77,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const supabase = createServerClient(
     process.env.SUPABASE_URL!,
     process.env.SUPABASE_ANON_KEY!,
-    { request, response }
+    { request, response },
   );
 
   const { data: contentBlocks, error } = await supabase
@@ -75,7 +91,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   return json<LoaderData>(
     { contentBlocks: contentBlocks as ContentBlock[] },
-    { headers: response.headers }
+    { headers: response.headers },
   );
 }
 
@@ -84,7 +100,7 @@ export async function action({ request }: ActionFunctionArgs) {
   const supabase = createServerClient(
     process.env.SUPABASE_URL!,
     process.env.SUPABASE_ANON_KEY!,
-    { request, response }
+    { request, response },
   );
 
   const formData = await request.formData();
@@ -92,15 +108,12 @@ export async function action({ request }: ActionFunctionArgs) {
 
   if (action === 'updatePositions') {
     const positions = JSON.parse(formData.get('positions') as string);
-    
+
     // Update positions in parallel
     await Promise.all(
       Object.entries(positions).map(([id, position]) =>
-        supabase
-          .from('content_blocks')
-          .update({ position })
-          .eq('id', id)
-      )
+        supabase.from('content_blocks').update({ position }).eq('id', id),
+      ),
     );
   }
 
@@ -120,14 +133,12 @@ export async function action({ request }: ActionFunctionArgs) {
     const blockType = formData.get('blockType') as ContentBlock['block_type'];
     const sectionId = formData.get('sectionId') as string;
 
-    await supabase
-      .from('content_blocks')
-      .insert({
-        section_id: sectionId,
-        block_type: blockType,
-        content: {},
-        position: 0,
-      });
+    await supabase.from('content_blocks').insert({
+      section_id: sectionId,
+      block_type: blockType,
+      content: {},
+      position: 0,
+    });
   }
 
   if (action === 'deleteBlock') {
@@ -185,8 +196,10 @@ export default function AdminContent() {
     formData.append(
       'positions',
       JSON.stringify(
-        Object.fromEntries(updatedItems.map((item) => [item.id, item.position]))
-      )
+        Object.fromEntries(
+          updatedItems.map((item) => [item.id, item.position]),
+        ),
+      ),
     );
 
     // Submit the form
@@ -196,14 +209,14 @@ export default function AdminContent() {
   const handleStyleChange = (
     blockId: string,
     property: keyof ContentBlock['styles'],
-    value: string
+    value: string,
   ) => {
     setBlocks((prev) =>
       prev.map((block) =>
         block.id === blockId
           ? { ...block, styles: { ...block.styles, [property]: value } }
-          : block
-      )
+          : block,
+      ),
     );
   };
 
@@ -214,13 +227,13 @@ export default function AdminContent() {
         <div className="flex gap-4">
           <Link
             to="/admin"
-            className="rounded-md border border-input bg-background px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground"
+            className="border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md border px-4 py-2 text-sm font-medium"
           >
             Back to Dashboard
           </Link>
           <button
             type="button"
-            className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-4 py-2 text-sm font-medium"
             onClick={() => {
               const formData = new FormData();
               formData.append('_action', 'createBlock');
@@ -243,17 +256,13 @@ export default function AdminContent() {
               className="space-y-4"
             >
               {blocks.map((block, index) => (
-                <Draggable
-                  key={block.id}
-                  draggableId={block.id}
-                  index={index}
-                >
+                <Draggable key={block.id} draggableId={block.id} index={index}>
                   {(provided) => (
                     <div
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      className="rounded-lg border bg-card p-6"
+                      className="bg-card rounded-lg border p-6"
                     >
                       <div className="mb-4 flex items-center justify-between">
                         <h3 className="text-lg font-medium capitalize">
@@ -261,8 +270,16 @@ export default function AdminContent() {
                         </h3>
                         <div className="flex items-center gap-4">
                           <Form method="post">
-                            <input type="hidden" name="_action" value="updateBlock" />
-                            <input type="hidden" name="blockId" value={block.id} />
+                            <input
+                              type="hidden"
+                              name="_action"
+                              value="updateBlock"
+                            />
+                            <input
+                              type="hidden"
+                              name="blockId"
+                              value={block.id}
+                            />
                             <input
                               type="hidden"
                               name="content"
@@ -290,8 +307,16 @@ export default function AdminContent() {
                             </button>
                           </Form>
                           <Form method="post">
-                            <input type="hidden" name="_action" value="deleteBlock" />
-                            <input type="hidden" name="blockId" value={block.id} />
+                            <input
+                              type="hidden"
+                              name="_action"
+                              value="deleteBlock"
+                            />
+                            <input
+                              type="hidden"
+                              name="blockId"
+                              value={block.id}
+                            />
                             <button
                               type="submit"
                               className="rounded-md bg-red-100 px-3 py-1 text-sm text-red-700"
@@ -309,7 +334,10 @@ export default function AdminContent() {
                           {block.block_type === 'card' && (
                             <>
                               <div>
-                                <label htmlFor={`title-${block.id}`} className="block text-sm font-medium mb-1">
+                                <label
+                                  htmlFor={`title-${block.id}`}
+                                  className="mb-1 block text-sm font-medium"
+                                >
                                   Title
                                 </label>
                                 <input
@@ -326,14 +354,17 @@ export default function AdminContent() {
                                       prev.map((b) =>
                                         b.id === block.id
                                           ? { ...b, content: newContent }
-                                          : b
-                                      )
+                                          : b,
+                                      ),
                                     );
                                   }}
                                 />
                               </div>
                               <div>
-                                <label htmlFor={`description-${block.id}`} className="block text-sm font-medium mb-1">
+                                <label
+                                  htmlFor={`description-${block.id}`}
+                                  className="mb-1 block text-sm font-medium"
+                                >
                                   Description
                                 </label>
                                 <textarea
@@ -349,8 +380,8 @@ export default function AdminContent() {
                                       prev.map((b) =>
                                         b.id === block.id
                                           ? { ...b, content: newContent }
-                                          : b
-                                      )
+                                          : b,
+                                      ),
                                     );
                                   }}
                                 />
@@ -364,18 +395,23 @@ export default function AdminContent() {
                           <h4 className="font-medium">Styles</h4>
                           <div className="grid gap-4">
                             <div>
-                              <label htmlFor={`bg-color-${block.id}`} className="block text-sm font-medium mb-1">
+                              <label
+                                htmlFor={`bg-color-${block.id}`}
+                                className="mb-1 block text-sm font-medium"
+                              >
                                 Background Color
                               </label>
                               <select
                                 id={`bg-color-${block.id}`}
                                 className="w-full rounded-md border-gray-300"
-                                value={block.styles.backgroundColor || 'bg-white'}
+                                value={
+                                  block.styles.backgroundColor || 'bg-white'
+                                }
                                 onChange={(e) =>
                                   handleStyleChange(
                                     block.id,
                                     'backgroundColor',
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                               >
@@ -386,18 +422,23 @@ export default function AdminContent() {
                               </select>
                             </div>
                             <div>
-                              <label htmlFor={`text-color-${block.id}`} className="block text-sm font-medium mb-1">
+                              <label
+                                htmlFor={`text-color-${block.id}`}
+                                className="mb-1 block text-sm font-medium"
+                              >
                                 Text Color
                               </label>
                               <select
                                 id={`text-color-${block.id}`}
                                 className="w-full rounded-md border-gray-300"
-                                value={block.styles.textColor || 'text-gray-900'}
+                                value={
+                                  block.styles.textColor || 'text-gray-900'
+                                }
                                 onChange={(e) =>
                                   handleStyleChange(
                                     block.id,
                                     'textColor',
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                               >
@@ -407,18 +448,23 @@ export default function AdminContent() {
                               </select>
                             </div>
                             <div>
-                              <label htmlFor={`border-radius-${block.id}`} className="block text-sm font-medium mb-1">
+                              <label
+                                htmlFor={`border-radius-${block.id}`}
+                                className="mb-1 block text-sm font-medium"
+                              >
                                 Border Radius
                               </label>
                               <select
                                 id={`border-radius-${block.id}`}
                                 className="w-full rounded-md border-gray-300"
-                                value={block.styles.borderRadius || 'rounded-lg'}
+                                value={
+                                  block.styles.borderRadius || 'rounded-lg'
+                                }
                                 onChange={(e) =>
                                   handleStyleChange(
                                     block.id,
                                     'borderRadius',
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                               >
@@ -429,7 +475,10 @@ export default function AdminContent() {
                               </select>
                             </div>
                             <div>
-                              <label htmlFor={`shadow-${block.id}`} className="block text-sm font-medium mb-1">
+                              <label
+                                htmlFor={`shadow-${block.id}`}
+                                className="mb-1 block text-sm font-medium"
+                              >
                                 Shadow
                               </label>
                               <select
@@ -440,7 +489,7 @@ export default function AdminContent() {
                                   handleStyleChange(
                                     block.id,
                                     'shadow',
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                               >
@@ -456,8 +505,16 @@ export default function AdminContent() {
 
                       <div className="mt-4 flex justify-end">
                         <Form method="post">
-                          <input type="hidden" name="_action" value="updateBlock" />
-                          <input type="hidden" name="blockId" value={block.id} />
+                          <input
+                            type="hidden"
+                            name="_action"
+                            value="updateBlock"
+                          />
+                          <input
+                            type="hidden"
+                            name="blockId"
+                            value={block.id}
+                          />
                           <input
                             type="hidden"
                             name="content"
@@ -476,7 +533,7 @@ export default function AdminContent() {
                           <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+                            className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-4 py-2 text-sm font-medium disabled:opacity-50"
                           >
                             {isSubmitting ? 'Saving...' : 'Save Changes'}
                           </button>
@@ -493,4 +550,4 @@ export default function AdminContent() {
       </DragDropContext>
     </div>
   );
-} 
+}

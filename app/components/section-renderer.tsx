@@ -1,4 +1,11 @@
-import type { Section, HeroContent, FeaturesContent, PricingContent, ContactContent, CustomContent } from '~/types/section';
+import type {
+  Section,
+  HeroContent,
+  FeaturesContent,
+  PricingContent,
+  ContactContent,
+  CustomContent,
+} from '~/types/section';
 import { HeroSection } from './sections/hero-section';
 import { ContactSection } from './sections/contact-section';
 import { CustomSection } from './sections/custom-section';
@@ -10,7 +17,10 @@ interface SectionRendererProps {
   className?: string;
 }
 
-export function SectionRenderer({ section, className = '' }: SectionRendererProps) {
+export function SectionRenderer({
+  section,
+  className = '',
+}: SectionRendererProps) {
   // Get theme variables from CSS
   const themeStyles = {
     primary: 'var(--color-primary)',
@@ -19,19 +29,49 @@ export function SectionRenderer({ section, className = '' }: SectionRendererProp
     text: 'var(--color-text)',
     accent: 'var(--color-accent)',
   };
-console.log('section',section)
+  console.log('section', section);
   const renderContent = () => {
     switch (section.type) {
       case 'hero':
-        return <HeroSection content={section.content as HeroContent} themeStyles={themeStyles} styles={section.styles} />;
+        return (
+          <HeroSection
+            content={section.content as HeroContent}
+            themeStyles={themeStyles}
+            styles={section.styles}
+          />
+        );
       case 'features':
-        return <FeaturesSection content={section.content as FeaturesContent} themeStyles={themeStyles} styles={section.styles} />;
+        return (
+          <FeaturesSection
+            content={section.content as FeaturesContent}
+            themeStyles={themeStyles}
+            styles={section.styles}
+          />
+        );
       case 'pricing':
-        return <PricingSection content={section.content as PricingContent} themeStyles={themeStyles} styles={section.styles} />;
+        return (
+          <PricingSection
+            content={section.content as PricingContent}
+            themeStyles={themeStyles}
+            styles={section.styles}
+          />
+        );
       case 'contact':
-        return <ContactSection content={section.content as ContactContent} themeStyles={themeStyles} styles={section.styles} />;
+        return (
+          <ContactSection
+            content={section.content as ContactContent}
+            themeStyles={themeStyles}
+            styles={section.styles}
+          />
+        );
       case 'custom':
-        return <CustomSection content={section.content as CustomContent} themeStyles={themeStyles} styles={section.styles} />;
+        return (
+          <CustomSection
+            content={section.content as CustomContent}
+            themeStyles={themeStyles}
+            styles={section.styles}
+          />
+        );
       default:
         console.warn(`Section type "${section.type}" not found`);
         return null;
@@ -47,4 +87,4 @@ console.log('section',section)
       {renderContent()}
     </section>
   );
-} 
+}

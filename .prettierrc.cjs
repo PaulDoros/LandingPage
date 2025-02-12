@@ -6,38 +6,38 @@ module.exports = {
   useTabs: false,
   semi: true,
   singleQuote: true,
-  quoteProps: "as-needed",
+  quoteProps: 'as-needed',
   jsxSingleQuote: false,
-  trailingComma: "all",
+  trailingComma: 'all',
   bracketSpacing: true,
   bracketSameLine: false,
-  arrowParens: "always",
+  arrowParens: 'always',
 
   // Whitespace
-  proseWrap: "preserve",
-  htmlWhitespaceSensitivity: "css",
-  endOfLine: "auto",
+  proseWrap: 'preserve',
+  htmlWhitespaceSensitivity: 'css',
+  endOfLine: 'auto',
 
   // Special files formatting
-  embeddedLanguageFormatting: "auto",
+  embeddedLanguageFormatting: 'auto',
   singleAttributePerLine: false,
 
   // Plugins
-  plugins: ["prettier-plugin-tailwindcss"],
+  plugins: ['prettier-plugin-tailwindcss'],
 
   // File-specific overrides
   overrides: [
     {
-      files: ["*.json", "*.yaml", "*.yml"],
+      files: ['*.json', '*.yaml', '*.yml'],
       options: {
         singleQuote: false,
         tabWidth: 2,
       },
     },
     {
-      files: "*.md",
+      files: '*.md',
       options: {
-        proseWrap: "always",
+        proseWrap: 'always',
         tabWidth: 2,
       },
     },

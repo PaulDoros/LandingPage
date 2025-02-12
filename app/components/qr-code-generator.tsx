@@ -41,15 +41,15 @@ export function QRCodeGenerator({ className }: QRCodeGeneratorProps) {
 
   return (
     <div className={className}>
-      <div className="rounded-lg border bg-card p-6">
-        <h3 className="mb-4 text-lg font-medium text-card-foreground">
+      <div className="bg-card rounded-lg border p-6">
+        <h3 className="text-card-foreground mb-4 text-lg font-medium">
           QR Code Generator
         </h3>
         <div className="space-y-4">
           <div>
             <label
               htmlFor="url"
-              className="block text-sm font-medium text-foreground"
+              className="text-foreground block text-sm font-medium"
             >
               URL or Text
             </label>
@@ -59,7 +59,7 @@ export function QRCodeGenerator({ className }: QRCodeGeneratorProps) {
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               placeholder="Enter URL or text"
-              className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-foreground shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+              className="border-input bg-background text-foreground focus:border-primary focus:ring-primary mt-1 block w-full rounded-md border px-3 py-2 shadow-sm focus:ring-1 focus:outline-none"
             />
           </div>
 
@@ -67,7 +67,7 @@ export function QRCodeGenerator({ className }: QRCodeGeneratorProps) {
             <div>
               <label
                 htmlFor="qrColor"
-                className="block text-sm font-medium text-foreground"
+                className="text-foreground block text-sm font-medium"
               >
                 QR Code Color
               </label>
@@ -76,13 +76,13 @@ export function QRCodeGenerator({ className }: QRCodeGeneratorProps) {
                 id="qrColor"
                 value={qrColor}
                 onChange={(e) => setQrColor(e.target.value)}
-                className="mt-1 h-10 w-full rounded-md border border-input"
+                className="border-input mt-1 h-10 w-full rounded-md border"
               />
             </div>
             <div>
               <label
                 htmlFor="bgColor"
-                className="block text-sm font-medium text-foreground"
+                className="text-foreground block text-sm font-medium"
               >
                 Background Color
               </label>
@@ -91,7 +91,7 @@ export function QRCodeGenerator({ className }: QRCodeGeneratorProps) {
                 id="bgColor"
                 value={bgColor}
                 onChange={(e) => setBgColor(e.target.value)}
-                className="mt-1 h-10 w-full rounded-md border border-input"
+                className="border-input mt-1 h-10 w-full rounded-md border"
               />
             </div>
           </div>
@@ -99,7 +99,7 @@ export function QRCodeGenerator({ className }: QRCodeGeneratorProps) {
           <div>
             <label
               htmlFor="size"
-              className="block text-sm font-medium text-foreground"
+              className="text-foreground block text-sm font-medium"
             >
               Size: {size}px
             </label>
@@ -121,11 +121,11 @@ export function QRCodeGenerator({ className }: QRCodeGeneratorProps) {
               id="includeMargin"
               checked={includeMargin}
               onChange={(e) => setIncludeMargin(e.target.checked)}
-              className="h-4 w-4 rounded border-input text-primary focus:ring-primary"
+              className="border-input text-primary focus:ring-primary h-4 w-4 rounded"
             />
             <label
               htmlFor="includeMargin"
-              className="ml-2 block text-sm text-foreground"
+              className="text-foreground ml-2 block text-sm"
             >
               Include margin
             </label>
@@ -147,7 +147,7 @@ export function QRCodeGenerator({ className }: QRCodeGeneratorProps) {
           {url && (
             <button
               onClick={handleDownload}
-              className="mt-4 w-full rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 mt-4 w-full rounded-md px-4 py-2 text-sm font-medium"
             >
               Download QR Code
             </button>
@@ -156,4 +156,4 @@ export function QRCodeGenerator({ className }: QRCodeGeneratorProps) {
       </div>
     </div>
   );
-} 
+}

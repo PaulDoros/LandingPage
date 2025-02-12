@@ -11,12 +11,12 @@ export function Layout({ children }: LayoutProps) {
   const isAdminRoute = location.pathname.startsWith('/admin');
 
   return (
-    <div className="relative min-h-screen flex flex-col">
+    <div className="relative flex min-h-screen flex-col">
       {!isAdminRoute && <Navigation />}
-      <main className="flex-1 container mx-auto px-4 pt-20 pb-16">
+      <main className="container mx-auto flex-1 px-4 pt-20 pb-16">
         {children}
       </main>
       {!isAdminRoute && <Footer />}
     </div>
   );
-} 
+}

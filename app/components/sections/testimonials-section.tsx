@@ -21,10 +21,10 @@ export function TestimonialsSection({ content }: TestimonialsSectionProps) {
 
   return (
     <div className="container mx-auto px-4 py-16 md:py-24">
-      <div className="text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4">{title}</h2>
+      <div className="mb-12 text-center">
+        <h2 className="mb-4 text-3xl font-bold md:text-4xl">{title}</h2>
         {subtitle && (
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-muted-foreground mx-auto max-w-2xl text-xl">
             {subtitle}
           </p>
         )}
@@ -33,30 +33,32 @@ export function TestimonialsSection({ content }: TestimonialsSectionProps) {
         {testimonials.map((testimonial, index) => (
           <div
             key={index}
-            className="p-6 rounded-lg border border-border/40 bg-card"
+            className="border-border/40 bg-card rounded-lg border p-6"
           >
             <div className="mb-6">
               <svg
-                className="h-8 w-8 text-primary"
+                className="text-primary h-8 w-8"
                 fill="currentColor"
                 viewBox="0 0 24 24"
               >
                 <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
               </svg>
             </div>
-            <blockquote className="text-lg mb-4">{testimonial.quote}</blockquote>
+            <blockquote className="mb-4 text-lg">
+              {testimonial.quote}
+            </blockquote>
             <div className="flex items-center">
               {testimonial.avatar && (
                 <img
                   src={testimonial.avatar}
                   alt={testimonial.author}
-                  className="w-12 h-12 rounded-full mr-4 object-cover"
+                  className="mr-4 h-12 w-12 rounded-full object-cover"
                 />
               )}
               <div>
                 <div className="font-semibold">{testimonial.author}</div>
                 {(testimonial.title || testimonial.company) && (
-                  <div className="text-sm text-muted-foreground">
+                  <div className="text-muted-foreground text-sm">
                     {testimonial.title}
                     {testimonial.title && testimonial.company && ' at '}
                     {testimonial.company}
@@ -69,4 +71,4 @@ export function TestimonialsSection({ content }: TestimonialsSectionProps) {
       </div>
     </div>
   );
-} 
+}

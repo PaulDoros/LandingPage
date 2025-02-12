@@ -1,4 +1,9 @@
-import { json, redirect, type ActionFunctionArgs, type LoaderFunctionArgs } from '@remix-run/node';
+import {
+  json,
+  redirect,
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
+} from '@remix-run/node';
 import { useLoaderData, Link } from '@remix-run/react';
 import { createServerClient } from '@supabase/auth-helpers-remix';
 import { SectionEditor } from '~/components/sections/section-editor';
@@ -10,7 +15,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const supabase = createServerClient(
     process.env.SUPABASE_URL!,
     process.env.SUPABASE_ANON_KEY!,
-    { request, response }
+    { request, response },
   );
 
   const { data: section, error } = await supabase
@@ -31,7 +36,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   const supabase = createServerClient(
     process.env.SUPABASE_URL!,
     process.env.SUPABASE_ANON_KEY!,
-    { request, response }
+    { request, response },
   );
 
   const formData = await request.formData();
@@ -39,7 +44,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
   if (intent === 'toggle-visibility') {
     const { error } = await supabase.rpc('toggle_section_visibility', {
-      section_id: params.id
+      section_id: params.id,
     });
 
     if (error) {
@@ -56,7 +61,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   const { error } = await supabase.rpc('update_section_content', {
     section_id: params.id,
     new_content: content,
-    new_styles: styles
+    new_styles: styles,
   });
 
   if (error) {
@@ -70,8 +75,8 @@ export default function AdminSectionEdit() {
   const { section } = useLoaderData<typeof loader>();
 
   return (
-    <div className="container mx-auto py-8 px-4">
-      <div className="flex items-center justify-between mb-8">
+    <div className="container mx-auto px-4 py-8">
+      <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Edit Section</h1>
           <p className="text-muted-foreground mt-1">
@@ -90,10 +95,10 @@ export default function AdminSectionEdit() {
           section={{
             ...section,
             order: section.order || 0,
-            isVisible: section.is_visible
+            isVisible: section.is_visible,
           }}
         />
       </Card>
     </div>
   );
-} 
+}
