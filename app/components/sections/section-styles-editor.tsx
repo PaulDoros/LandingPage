@@ -68,10 +68,14 @@ export function SectionStylesEditor({
                 }
               />
               <div>
-                <label className="mb-2 block text-sm font-medium">
+                <label
+                  htmlFor="general-padding"
+                  className="mb-2 block text-sm font-medium"
+                >
                   Padding (px)
                 </label>
                 <Slider
+                  id="general-padding"
                   value={[
                     parseInt(previewStyles.padding?.replace('px', '') || '0'),
                   ]}
@@ -84,10 +88,14 @@ export function SectionStylesEditor({
                 />
               </div>
               <div>
-                <label className="mb-2 block text-sm font-medium">
+                <label
+                  htmlFor="general-border-radius"
+                  className="mb-2 block text-sm font-medium"
+                >
                   Border Radius (px)
                 </label>
                 <Slider
+                  id="general-border-radius"
                   value={[
                     parseInt(
                       previewStyles.borderRadius?.replace('px', '') || '0',
@@ -131,10 +139,14 @@ export function SectionStylesEditor({
                   }
                 />
                 <div>
-                  <label className="mb-2 block text-sm font-medium">
+                  <label
+                    htmlFor="heading-font-size"
+                    className="mb-2 block text-sm font-medium"
+                  >
                     Font Size (px)
                   </label>
                   <Slider
+                    id="heading-font-size"
                     value={[
                       parseInt(
                         heroStyles.headingStyles?.fontSize?.replace('px', '') ||
@@ -153,10 +165,14 @@ export function SectionStylesEditor({
                   />
                 </div>
                 <div>
-                  <label className="mb-2 block text-sm font-medium">
+                  <label
+                    htmlFor="heading-font-weight"
+                    className="mb-2 block text-sm font-medium"
+                  >
                     Font Weight
                   </label>
                   <Slider
+                    id="heading-font-weight"
                     value={[
                       parseInt(heroStyles.headingStyles?.fontWeight || '600'),
                     ]}
@@ -202,10 +218,14 @@ export function SectionStylesEditor({
                   }
                 />
                 <div>
-                  <label className="mb-2 block text-sm font-medium">
+                  <label
+                    htmlFor="subtitle-font-size"
+                    className="mb-2 block text-sm font-medium"
+                  >
                     Font Size (px)
                   </label>
                   <Slider
+                    id="subtitle-font-size"
                     value={[
                       parseInt(
                         heroStyles.subtitleStyles?.fontSize?.replace(
@@ -226,10 +246,14 @@ export function SectionStylesEditor({
                   />
                 </div>
                 <div>
-                  <label className="mb-2 block text-sm font-medium">
+                  <label
+                    htmlFor="subtitle-font-weight"
+                    className="mb-2 block text-sm font-medium"
+                  >
                     Font Weight
                   </label>
                   <Slider
+                    id="subtitle-font-weight"
                     value={[
                       parseInt(heroStyles.subtitleStyles?.fontWeight || '400'),
                     ]}
@@ -302,10 +326,14 @@ export function SectionStylesEditor({
                   }
                 />
                 <div>
-                  <label className="mb-2 block text-sm font-medium">
+                  <label
+                    htmlFor="button-border-radius"
+                    className="mb-2 block text-sm font-medium"
+                  >
                     Border Radius (px)
                   </label>
                   <Slider
+                    id="button-border-radius"
                     value={[
                       parseInt(
                         heroStyles.buttonStyles?.borderRadius?.replace(
@@ -344,10 +372,14 @@ export function SectionStylesEditor({
             <CollapsibleContent>
               <div className="mt-4 space-y-4">
                 <div>
-                  <label className="mb-2 block text-sm font-medium">
+                  <label
+                    htmlFor="image-border-radius"
+                    className="mb-2 block text-sm font-medium"
+                  >
                     Border Radius (px)
                   </label>
                   <Slider
+                    id="image-border-radius"
                     value={[
                       parseInt(
                         heroStyles.imageStyles?.borderRadius?.replace(
@@ -368,10 +400,14 @@ export function SectionStylesEditor({
                   />
                 </div>
                 <div>
-                  <label className="mb-2 block text-sm font-medium">
+                  <label
+                    htmlFor="image-shadow"
+                    className="mb-2 block text-sm font-medium"
+                  >
                     Shadow Intensity
                   </label>
                   <Slider
+                    id="image-shadow"
                     value={[
                       parseInt(
                         heroStyles.imageStyles?.shadow?.split('px')[0] || '0',
@@ -423,10 +459,14 @@ export function SectionStylesEditor({
               </div>
               {previewStyles.useContainer && (
                 <div>
-                  <label className="mb-2 block text-sm font-medium">
+                  <label
+                    htmlFor="container-padding"
+                    className="mb-2 block text-sm font-medium"
+                  >
                     Container Padding (px)
                   </label>
                   <Slider
+                    id="container-padding"
                     value={[
                       parseInt(
                         previewStyles.containerPadding?.replace('px', '') ||
