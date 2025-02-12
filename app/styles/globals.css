@@ -43,3 +43,29 @@
   /* Border Radius */
   --radius: 0.5rem;
 }
+
+@keyframes collapse {
+  from {
+    height: var(--radix-collapsible-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+@keyframes expand {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-collapsible-content-height);
+  }
+}
+
+.data-[state=closed]:animate-collapse {
+  animation: collapse 0.2s ease-out;
+}
+
+.data-[state=open]:animate-expand {
+  animation: expand 0.2s ease-out;
+}

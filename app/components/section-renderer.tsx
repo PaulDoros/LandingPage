@@ -19,19 +19,19 @@ export function SectionRenderer({ section, className = '' }: SectionRendererProp
     text: 'var(--color-text)',
     accent: 'var(--color-accent)',
   };
-
+console.log('section',section)
   const renderContent = () => {
     switch (section.type) {
       case 'hero':
-        return <HeroSection content={section.content as HeroContent} themeStyles={themeStyles} />;
+        return <HeroSection content={section.content as HeroContent} themeStyles={themeStyles} styles={section.styles} />;
       case 'features':
-        return <FeaturesSection content={section.content as FeaturesContent} themeStyles={themeStyles} />;
+        return <FeaturesSection content={section.content as FeaturesContent} themeStyles={themeStyles} styles={section.styles} />;
       case 'pricing':
-        return <PricingSection content={section.content as PricingContent} themeStyles={themeStyles} />;
+        return <PricingSection content={section.content as PricingContent} themeStyles={themeStyles} styles={section.styles} />;
       case 'contact':
-        return <ContactSection content={section.content as ContactContent} themeStyles={themeStyles} />;
+        return <ContactSection content={section.content as ContactContent} themeStyles={themeStyles} styles={section.styles} />;
       case 'custom':
-        return <CustomSection content={section.content as CustomContent} themeStyles={themeStyles} />;
+        return <CustomSection content={section.content as CustomContent} themeStyles={themeStyles} styles={section.styles} />;
       default:
         console.warn(`Section type "${section.type}" not found`);
         return null;

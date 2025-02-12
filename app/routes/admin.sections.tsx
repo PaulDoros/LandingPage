@@ -104,14 +104,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     throw new Error('Failed to load sections');
   }
 
-  console.log('=== Sections Debug ===');
-  console.log('Sections loaded:', sections.map(s => ({
-    id: s.id,
-    type: s.type,
-    position: s.position,
-    is_visible: s.is_visible,
-    is_visible_type: typeof s.is_visible
-  })));
+
 
   return json<LoaderData>({
     sections,

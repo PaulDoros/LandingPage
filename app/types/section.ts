@@ -6,13 +6,59 @@ export interface BaseSection {
   type: SectionType;
   position: number;
   is_visible: boolean;
-  styles?: {
-    backgroundColor?: string;
-    textColor?: string;
+  styles?: SectionStyles;
+}
+
+export interface SectionStyles {
+  backgroundColor?: string;
+  textColor?: string;
+  padding?: string;
+  paddingX?: string;
+  paddingY?: string;
+  margin?: string;
+  marginX?: string;
+  marginY?: string;
+  containerClass?: string;
+  customClasses?: string[];
+  useContainer?: boolean;
+  containerPadding?: string;
+  borderColor?: string;
+  borderWidth?: string;
+  borderRadius?: string;
+  buttonStyles?: {
+    primary?: {
+      backgroundColor?: string;
+      textColor?: string;
+      hoverColor?: string;
+    };
+    secondary?: {
+      backgroundColor?: string;
+      textColor?: string;
+      hoverColor?: string;
+    };
+    outline?: {
+      backgroundColor?: string;
+      textColor?: string;
+      borderColor?: string;
+      hoverColor?: string;
+    };
+  };
+  textStyles?: {
+    heading1?: string;
+    heading2?: string;
+    heading3?: string;
+    subtitle?: string;
+    body?: string;
+    small?: string;
+  };
+  cardStyles?: {
     padding?: string;
-    margin?: string;
-    containerClass?: string;
-    customClasses?: string[];
+    backgroundColor?: string;
+    borderRadius?: string;
+    hover?: string;
+    shadow?: string;
+    borderColor?: string;
+    textColor?: string;
   };
 }
 
@@ -170,8 +216,10 @@ export interface FlexContent {
   components: FlexComponent[];
 }
 
+export type SectionContent = HeroContent | FeaturesContent | PricingContent | ContactContent | CustomContent;
+
 export interface Section extends BaseSection {
-  content: HeroContent | FeaturesContent | PricingContent | ContactContent | CustomContent | FlexContent;
+  content: SectionContent;
 }
 
 export interface ThemeStyles {
@@ -180,4 +228,5 @@ export interface ThemeStyles {
   background: string;
   text: string;
   accent: string;
+  borderRadius?: string;
 } 

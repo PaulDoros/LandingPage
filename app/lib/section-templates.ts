@@ -5,7 +5,6 @@ import type {
   PricingContent, 
   ContactContent, 
   CustomContent,
-  PricingFeature,
   PricingTier,
   CustomBlock,
   FlexContent,
