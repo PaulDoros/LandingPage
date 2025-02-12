@@ -15,7 +15,7 @@ const CollapsibleTrigger = React.forwardRef<
       'transition-all duration-300 ease-in-out',
       'hover:bg-accent/50 hover:pl-2',
       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-      '[&[data-state=open]>svg]:rotate-180',
+      'collapsible-trigger',
       className
     )}
     {...props}
@@ -47,14 +47,12 @@ const CollapsibleContent = React.forwardRef<
     ref={ref}
     className={cn(
       'overflow-hidden',
-      'transition-all duration-300 ease-in-out',
-      'data-[state=closed]:animate-collapsible-up',
-      'data-[state=open]:animate-collapsible-down',
+      'collapsible-content',
       className
     )}
     {...props}
   >
-    <div className="pt-2 pb-4 transition-all duration-300 ease-in-out data-[state=closed]:opacity-0 data-[state=open]:opacity-100">
+    <div className="pt-2 pb-4">
       {children}
     </div>
   </CollapsiblePrimitive.Content>

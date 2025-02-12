@@ -44,16 +44,7 @@
   --radius: 0.5rem;
 }
 
-@keyframes collapse {
-  from {
-    height: var(--radix-collapsible-content-height);
-  }
-  to {
-    height: 0;
-  }
-}
-
-@keyframes expand {
+@keyframes slideDown {
   from {
     height: 0;
   }
@@ -62,10 +53,23 @@
   }
 }
 
-.data-[state=closed]:animate-collapse {
-  animation: collapse 0.2s ease-out;
+@keyframes slideUp {
+  from {
+    height: var(--radix-collapsible-content-height);
+  }
+  to {
+    height: 0;
+  }
 }
 
-.data-[state=open]:animate-expand {
-  animation: expand 0.2s ease-out;
+.collapsible-content[data-state='open'] {
+  animation: slideDown 300ms ease-out;
+}
+
+.collapsible-content[data-state='closed'] {
+  animation: slideUp 300ms ease-out;
+}
+
+.collapsible-trigger[data-state='open'] > svg {
+  transform: rotate(180deg);
 }
