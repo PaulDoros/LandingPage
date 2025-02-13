@@ -1,4 +1,4 @@
-import { Form, useSubmit, useNavigation } from '@remix-run/react';
+import { Form, useNavigation, useFetcher } from '@remix-run/react';
 import { useState } from 'react';
 import { SectionRenderer } from '~/components/section-renderer';
 import type { Section, SectionStyles } from '~/types/section';
@@ -28,7 +28,7 @@ export function SectionEditor({ section }: SectionEditorProps) {
   });
   const [openSections, setOpenSections] = useState<string[]>(['general']);
 
-  const submit = useSubmit();
+  const fetcher = useFetcher();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
 
@@ -85,7 +85,7 @@ export function SectionEditor({ section }: SectionEditorProps) {
     formData.append('content', JSON.stringify(previewContent));
     formData.append('styles', JSON.stringify(previewStyles));
 
-    submit(formData, { method: 'post' });
+    fetcher.submit(formData, { method: 'post' });
   };
 
   const toggleSection = (section: string) => {
@@ -115,7 +115,7 @@ export function SectionEditor({ section }: SectionEditorProps) {
                   const form = new FormData();
                   form.append('intent', 'toggle-visibility');
                   form.append('is_visible', checked.toString());
-                  submit(form, { method: 'post' });
+                  fetcher.submit(form, { method: 'post' });
                 }}
               />
               <span className="text-sm font-medium">

@@ -133,15 +133,11 @@ export async function action({ request }: ActionFunctionArgs) {
   } = await supabase.auth.getUser();
 
   if (userError || !user) {
-    console.error('Authentication error:', userError);
     return json({ error: 'Not authenticated' }, { status: 401 });
   }
 
   const formData = await request.formData();
   const action = formData.get('_action');
-
-  console.log('=== Server-side Action Debug ===');
-  console.log('Action type:', action);
 
   if (action === 'toggle-visibility') {
     const sectionId = formData.get('sectionId') as string;
@@ -214,6 +210,9 @@ export async function action({ request }: ActionFunctionArgs) {
         { status: 500, headers: response.headers },
       );
     }
+
+    // Return success so the client can trigger UI updates
+    return json({ success: true }, { headers: response.headers });
   }
 
   if (action === 'create') {
@@ -339,6 +338,7 @@ export default function AdminSections() {
           });
         }
       } else if ('success' in actionData) {
+        // Determine which form triggered the action
         const activeForm = document.activeElement?.closest('form');
         if (activeForm instanceof HTMLFormElement) {
           const formData = new FormData(activeForm);
@@ -347,6 +347,9 @@ export default function AdminSections() {
             toast.success('Section deleted', {
               description: 'The section has been successfully removed',
             });
+            // Close the delete modal
+            setIsDeleteModalOpen(false);
+            setSectionToDelete(null);
           } else if (action === 'create') {
             toast.success('Section created', {
               description: 'The new section has been added successfully',
@@ -411,7 +414,16 @@ export default function AdminSections() {
 
   return (
     <div className="space-y-8">
-      {/* Hidden form for reordering */}
+      <button
+        className="bg-green-500 p-3"
+        onClick={() => {
+          console.log('clicked');
+          toast('Toast');
+        }}
+      >
+        Render Toast
+      </button>
+
       <Form ref={reorderFormRef} method="post" className="hidden">
         <input type="hidden" name="_action" value="reorder" />
         {reorderFormData && (
@@ -422,7 +434,6 @@ export default function AdminSections() {
           />
         )}
       </Form>
-
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">Sections</h1>
         <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
@@ -441,7 +452,11 @@ export default function AdminSections() {
                 Choose a section type to add to your landing page.
               </DialogDescription>
             </DialogHeader>
-            <Form method="post" className="space-y-8" onSubmit={() => setIsModalOpen(false)}>
+            <Form
+              method="post"
+              className="space-y-8"
+              onSubmit={() => setIsModalOpen(false)}
+            >
               <input type="hidden" name="_action" value="create" />
               <input type="hidden" name="landingPageId" value={landingPageId} />
               <input type="hidden" name="type" value={selectedType} />
@@ -470,7 +485,6 @@ export default function AdminSections() {
           Back to Dashboard
         </Link>
       </div>
-
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="sections-list">
           {(provided) => (
@@ -596,7 +610,6 @@ export default function AdminSections() {
           )}
         </Droppable>
       </DragDropContext>
-
       {/* Delete Confirmation Modal */}
       {isDeleteModalOpen && (
         <div className="bg-background/80 fixed inset-0 z-50 backdrop-blur-sm">

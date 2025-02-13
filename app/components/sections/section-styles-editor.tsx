@@ -42,6 +42,12 @@ export function SectionStylesEditor({
   const heroDefaults =
     type === 'hero' && defaultStyles ? (defaultStyles as HeroStyles) : null;
 
+  const handleSliderChange = (name: string, values: number[], unit = 'px') => {
+    // Debounce the actual update to prevent too many re-renders
+    const value = Math.round(values[0] * 10) / 10; // Round to 1 decimal place
+    handleInputChange(name, `${value}${unit}`);
+  };
+
   return (
     <div className="space-y-4">
       {/* General Styles */}
@@ -54,6 +60,63 @@ export function SectionStylesEditor({
             <h3 className="text-lg font-medium">General</h3>
           </CollapsibleTrigger>
           <CollapsibleContent>
+            <div className="mt-4 space-y-4">
+              <div className="flex items-center gap-2">
+                <Switch
+                  id="use-container"
+                  checked={previewStyles.useContainer}
+                  onCheckedChange={(checked) => {
+                    handleInputChange('styles.useContainer', checked);
+                    handleInputChange(
+                      'styles.containerClass',
+                      checked ? 'container mx-auto' : '',
+                    );
+                  }}
+                />
+                <label htmlFor="use-container" className="text-sm font-medium">
+                  Use Container
+                </label>
+              </div>
+              {previewStyles.useContainer && (
+                <div>
+                  <label
+                    htmlFor="container-padding"
+                    className="mb-2 block text-sm font-medium"
+                  >
+                    Container Padding (px)
+                  </label>
+                  <Slider
+                    id="container-padding"
+                    value={[
+                      parseFloat(
+                        previewStyles.containerPadding?.replace('px', '') ||
+                          '16',
+                      ),
+                    ]}
+                    min={0}
+                    max={100}
+                    step={0.1}
+                    onValueChange={(values: number[]) => {
+                      handleSliderChange('styles.containerPadding', values);
+                      handleInputChange(
+                        'styles.containerClass',
+                        `container mx-auto px-[${values[0]}px]`,
+                      );
+                    }}
+                    className="py-4"
+                  />
+                  <div className="mt-1 text-xs text-gray-500">
+                    {Math.round(
+                      parseFloat(
+                        previewStyles.containerPadding?.replace('px', '') ||
+                          '16',
+                      ) * 10,
+                    ) / 10}
+                    px
+                  </div>
+                </div>
+              )}
+            </div>
             <div className="mt-4 space-y-4">
               <ColorPicker
                 label="Background Color"
@@ -77,15 +140,24 @@ export function SectionStylesEditor({
                 <Slider
                   id="general-padding"
                   value={[
-                    parseInt(previewStyles.padding?.replace('px', '') || '0'),
+                    parseFloat(previewStyles.padding?.replace('px', '') || '0'),
                   ]}
                   min={0}
                   max={100}
-                  step={4}
+                  step={0.1}
                   onValueChange={(values: number[]) =>
-                    handleInputChange('styles.padding', `${values[0]}px`)
+                    handleSliderChange('styles.padding', values)
                   }
+                  className="py-4"
                 />
+                <div className="mt-1 text-xs text-gray-500">
+                  {Math.round(
+                    parseFloat(
+                      previewStyles.padding?.replace('px', '') || '0',
+                    ) * 10,
+                  ) / 10}
+                  px
+                </div>
               </div>
               <div>
                 <label
@@ -97,17 +169,26 @@ export function SectionStylesEditor({
                 <Slider
                   id="general-border-radius"
                   value={[
-                    parseInt(
+                    parseFloat(
                       previewStyles.borderRadius?.replace('px', '') || '0',
                     ),
                   ]}
                   min={0}
                   max={50}
-                  step={2}
+                  step={0.1}
                   onValueChange={(values: number[]) =>
-                    handleInputChange('styles.borderRadius', `${values[0]}px`)
+                    handleSliderChange('styles.borderRadius', values)
                   }
+                  className="py-4"
                 />
+                <div className="mt-1 text-xs text-gray-500">
+                  {Math.round(
+                    parseFloat(
+                      previewStyles.borderRadius?.replace('px', '') || '0',
+                    ) * 10,
+                  ) / 10}
+                  px
+                </div>
               </div>
             </div>
           </CollapsibleContent>
@@ -148,21 +229,31 @@ export function SectionStylesEditor({
                   <Slider
                     id="heading-font-size"
                     value={[
-                      parseInt(
+                      parseFloat(
                         heroStyles.headingStyles?.fontSize?.replace('px', '') ||
                           '48',
                       ),
                     ]}
                     min={16}
                     max={96}
-                    step={2}
+                    step={0.1}
                     onValueChange={(values: number[]) =>
-                      handleInputChange(
+                      handleSliderChange(
                         'styles.headingStyles.fontSize',
-                        `${values[0]}px`,
+                        values,
                       )
                     }
+                    className="py-4"
                   />
+                  <div className="mt-1 text-xs text-gray-500">
+                    {Math.round(
+                      parseFloat(
+                        heroStyles.headingStyles?.fontSize?.replace('px', '') ||
+                          '48',
+                      ) * 10,
+                    ) / 10}
+                    px
+                  </div>
                 </div>
                 <div>
                   <label
@@ -178,14 +269,19 @@ export function SectionStylesEditor({
                     ]}
                     min={100}
                     max={900}
-                    step={100}
+                    step={10}
                     onValueChange={(values: number[]) =>
-                      handleInputChange(
+                      handleSliderChange(
                         'styles.headingStyles.fontWeight',
-                        values[0].toString(),
+                        values,
+                        '',
                       )
                     }
+                    className="py-4"
                   />
+                  <div className="mt-1 text-xs text-gray-500">
+                    {parseInt(heroStyles.headingStyles?.fontWeight || '600')}
+                  </div>
                 </div>
               </div>
             </CollapsibleContent>
@@ -227,7 +323,7 @@ export function SectionStylesEditor({
                   <Slider
                     id="subtitle-font-size"
                     value={[
-                      parseInt(
+                      parseFloat(
                         heroStyles.subtitleStyles?.fontSize?.replace(
                           'px',
                           '',
@@ -236,14 +332,26 @@ export function SectionStylesEditor({
                     ]}
                     min={12}
                     max={48}
-                    step={2}
+                    step={0.1}
                     onValueChange={(values: number[]) =>
-                      handleInputChange(
+                      handleSliderChange(
                         'styles.subtitleStyles.fontSize',
-                        `${values[0]}px`,
+                        values,
                       )
                     }
+                    className="py-4"
                   />
+                  <div className="mt-1 text-xs text-gray-500">
+                    {Math.round(
+                      parseFloat(
+                        heroStyles.subtitleStyles?.fontSize?.replace(
+                          'px',
+                          '',
+                        ) || '18',
+                      ) * 10,
+                    ) / 10}
+                    px
+                  </div>
                 </div>
                 <div>
                   <label
@@ -259,14 +367,19 @@ export function SectionStylesEditor({
                     ]}
                     min={100}
                     max={900}
-                    step={100}
+                    step={10}
                     onValueChange={(values: number[]) =>
-                      handleInputChange(
+                      handleSliderChange(
                         'styles.subtitleStyles.fontWeight',
-                        values[0].toString(),
+                        values,
+                        '',
                       )
                     }
+                    className="py-4"
                   />
+                  <div className="mt-1 text-xs text-gray-500">
+                    {parseInt(heroStyles.subtitleStyles?.fontWeight || '400')}
+                  </div>
                 </div>
               </div>
             </CollapsibleContent>
@@ -335,7 +448,7 @@ export function SectionStylesEditor({
                   <Slider
                     id="button-border-radius"
                     value={[
-                      parseInt(
+                      parseFloat(
                         heroStyles.buttonStyles?.borderRadius?.replace(
                           'px',
                           '',
@@ -344,14 +457,26 @@ export function SectionStylesEditor({
                     ]}
                     min={0}
                     max={50}
-                    step={2}
+                    step={0.1}
                     onValueChange={(values: number[]) =>
-                      handleInputChange(
+                      handleSliderChange(
                         'styles.buttonStyles.borderRadius',
-                        `${values[0]}px`,
+                        values,
                       )
                     }
+                    className="py-4"
                   />
+                  <div className="mt-1 text-xs text-gray-500">
+                    {Math.round(
+                      parseFloat(
+                        heroStyles.buttonStyles?.borderRadius?.replace(
+                          'px',
+                          '',
+                        ) || '8',
+                      ) * 10,
+                    ) / 10}
+                    px
+                  </div>
                 </div>
               </div>
             </CollapsibleContent>
@@ -381,7 +506,7 @@ export function SectionStylesEditor({
                   <Slider
                     id="image-border-radius"
                     value={[
-                      parseInt(
+                      parseFloat(
                         heroStyles.imageStyles?.borderRadius?.replace(
                           'px',
                           '',
@@ -390,14 +515,26 @@ export function SectionStylesEditor({
                     ]}
                     min={0}
                     max={50}
-                    step={2}
+                    step={0.1}
                     onValueChange={(values: number[]) =>
-                      handleInputChange(
+                      handleSliderChange(
                         'styles.imageStyles.borderRadius',
-                        `${values[0]}px`,
+                        values,
                       )
                     }
+                    className="py-4"
                   />
+                  <div className="mt-1 text-xs text-gray-500">
+                    {Math.round(
+                      parseFloat(
+                        heroStyles.imageStyles?.borderRadius?.replace(
+                          'px',
+                          '',
+                        ) || '8',
+                      ) * 10,
+                    ) / 10}
+                    px
+                  </div>
                 </div>
                 <div>
                   <label
@@ -409,90 +546,36 @@ export function SectionStylesEditor({
                   <Slider
                     id="image-shadow"
                     value={[
-                      parseInt(
+                      parseFloat(
                         heroStyles.imageStyles?.shadow?.split('px')[0] || '0',
                       ),
                     ]}
                     min={0}
                     max={50}
-                    step={2}
-                    onValueChange={(values: number[]) =>
+                    step={0.1}
+                    onValueChange={(values: number[]) => {
+                      const value = Math.round(values[0] * 10) / 10;
                       handleInputChange(
                         'styles.imageStyles.shadow',
-                        `${values[0]}px ${values[0]}px ${values[0] * 2}px rgba(0, 0, 0, 0.1)`,
-                      )
-                    }
+                        `${value}px ${value}px ${value * 2}px rgba(0, 0, 0, ${value / 100})`,
+                      );
+                    }}
+                    className="py-4"
                   />
+                  <div className="mt-1 text-xs text-gray-500">
+                    {Math.round(
+                      parseFloat(
+                        heroStyles.imageStyles?.shadow?.split('px')[0] || '0',
+                      ) * 10,
+                    ) / 10}
+                    px
+                  </div>
                 </div>
               </div>
             </CollapsibleContent>
           </Card>
         </Collapsible>
       )}
-
-      {/* Container Settings */}
-      <Collapsible
-        open={openSections.includes('container')}
-        onOpenChange={() => toggleSection('container')}
-      >
-        <Card className="p-4">
-          <CollapsibleTrigger className="w-full">
-            <h3 className="text-lg font-medium">Container</h3>
-          </CollapsibleTrigger>
-          <CollapsibleContent>
-            <div className="mt-4 space-y-4">
-              <div className="flex items-center gap-2">
-                <Switch
-                  id="use-container"
-                  checked={previewStyles.useContainer}
-                  onCheckedChange={(checked) => {
-                    handleInputChange('styles.useContainer', checked);
-                    handleInputChange(
-                      'styles.containerClass',
-                      checked ? 'container mx-auto' : '',
-                    );
-                  }}
-                />
-                <label htmlFor="use-container" className="text-sm font-medium">
-                  Use Container
-                </label>
-              </div>
-              {previewStyles.useContainer && (
-                <div>
-                  <label
-                    htmlFor="container-padding"
-                    className="mb-2 block text-sm font-medium"
-                  >
-                    Container Padding (px)
-                  </label>
-                  <Slider
-                    id="container-padding"
-                    value={[
-                      parseInt(
-                        previewStyles.containerPadding?.replace('px', '') ||
-                          '16',
-                      ),
-                    ]}
-                    min={0}
-                    max={100}
-                    step={4}
-                    onValueChange={(values: number[]) => {
-                      handleInputChange(
-                        'styles.containerPadding',
-                        `${values[0]}px`,
-                      );
-                      handleInputChange(
-                        'styles.containerClass',
-                        `container mx-auto px-[${values[0]}px]`,
-                      );
-                    }}
-                  />
-                </div>
-              )}
-            </div>
-          </CollapsibleContent>
-        </Card>
-      </Collapsible>
     </div>
   );
 }

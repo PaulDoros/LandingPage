@@ -1,4 +1,14 @@
-export type SectionType = 'hero' | 'features' | 'pricing' | 'contact' | 'custom' | 'flex';
+import type { MediaMetadata } from './media';
+
+export type SectionType = 
+  | 'hero' 
+  | 'features' 
+  | 'pricing' 
+  | 'contact' 
+  | 'custom' 
+  | 'flex'
+  | 'single-media'
+  | 'media-carousel';
 
 export interface BaseSection {
   id: string;
@@ -151,13 +161,81 @@ export interface FlexStyles extends BaseStyles {
   gap?: number;
 }
 
+export interface MediaItem {
+  id: string;
+  filePath: string;
+  fileName: string;
+  mimeType: string;
+  altText?: string;
+  title?: string;
+  description?: string;
+  position: number;
+}
+
+export interface SingleMediaStyles extends BaseStyles {
+  type: 'single-media';
+  mediaStyles?: {
+    width?: string;
+    height?: string;
+    objectFit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
+    borderRadius?: string;
+    shadow?: string;
+    aspectRatio?: string;
+  };
+  captionStyles?: {
+    fontSize?: string;
+    fontWeight?: string;
+    color?: string;
+    textAlign?: 'left' | 'center' | 'right';
+  };
+}
+
+export interface MediaCarouselStyles extends BaseStyles {
+  type: 'media-carousel';
+  mediaStyles?: {
+    width?: string;
+    height?: string;
+    objectFit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
+    borderRadius?: string;
+    shadow?: string;
+    aspectRatio?: string;
+  };
+  carouselStyles?: {
+    gap?: string;
+    navigation?: boolean;
+    pagination?: boolean;
+    autoplay?: boolean;
+    autoplayDelay?: number;
+    effect?: 'slide' | 'fade' | 'cube' | 'coverflow' | 'flip';
+  };
+  captionStyles?: {
+    fontSize?: string;
+    fontWeight?: string;
+    color?: string;
+    textAlign?: 'left' | 'center' | 'right';
+  };
+}
+
+export interface SingleMediaContent {
+  media: MediaMetadata;
+  caption?: string;
+  link?: string;
+}
+
+export interface MediaCarouselContent {
+  items: MediaMetadata[];
+  showCaptions?: boolean;
+}
+
 export type SectionStyles = 
   | HeroStyles
   | FeaturesStyles
   | PricingStyles
   | ContactStyles
   | CustomStyles
-  | FlexStyles;
+  | FlexStyles
+  | SingleMediaStyles
+  | MediaCarouselStyles;
 
 export interface HeroContent {
   title: string;
@@ -325,7 +403,10 @@ export type SectionContent =
   | FeaturesContent
   | PricingContent
   | ContactContent
-  | CustomContent;
+  | CustomContent
+  | FlexContent
+  | SingleMediaContent
+  | MediaCarouselContent;
 
 export interface Section extends BaseSection {
   content: SectionContent;

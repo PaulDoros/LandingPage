@@ -183,4 +183,68 @@ export const sectionTypes: SectionTypeDefinition[] = [
       { label: 'Border Radius', key: 'styles.borderRadius', type: 'number', group: 'border' },
     ],
   },
+  {
+    type: 'single-media',
+    label: 'Single Media Section',
+    description: 'Display a single image or video with optional caption',
+    icon: 'M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z',
+    styleOptions: [
+      // General Styles
+      { label: 'Background Color', key: 'backgroundColor', type: 'color', group: 'general' },
+      { label: 'Text Color', key: 'textColor', type: 'color', group: 'general' },
+      { label: 'Padding', key: 'padding', type: 'text', group: 'general' },
+      { label: 'Margin', key: 'margin', type: 'text', group: 'general' },
+      { label: 'Container Width', key: 'containerClass', type: 'text', group: 'general' },
+      
+      // Media Styles
+      { label: 'Media Width', key: 'mediaStyles.width', type: 'text', group: 'media' },
+      { label: 'Media Height', key: 'mediaStyles.height', type: 'text', group: 'media' },
+      { label: 'Object Fit', key: 'mediaStyles.objectFit', type: 'select', options: ['contain', 'cover', 'fill', 'none', 'scale-down'], group: 'media' },
+      { label: 'Border Radius', key: 'mediaStyles.borderRadius', type: 'text', group: 'media' },
+      { label: 'Shadow', key: 'mediaStyles.shadow', type: 'text', group: 'media' },
+      { label: 'Aspect Ratio', key: 'mediaStyles.aspectRatio', type: 'text', group: 'media' },
+      
+      // Caption Styles
+      { label: 'Caption Font Size', key: 'captionStyles.fontSize', type: 'text', group: 'caption' },
+      { label: 'Caption Font Weight', key: 'captionStyles.fontWeight', type: 'text', group: 'caption' },
+      { label: 'Caption Color', key: 'captionStyles.color', type: 'color', group: 'caption' },
+      { label: 'Caption Alignment', key: 'captionStyles.textAlign', type: 'select', options: ['left', 'center', 'right'], group: 'caption' },
+    ],
+  },
+  {
+    type: 'media-carousel',
+    label: 'Media Carousel Section',
+    description: 'Display multiple images or videos in a carousel',
+    icon: 'M15.75 5.25a3 3 0 013 3m3.75 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z',
+    styleOptions: [
+      // General Styles
+      { label: 'Background Color', key: 'backgroundColor', type: 'color', group: 'general' },
+      { label: 'Text Color', key: 'textColor', type: 'color', group: 'general' },
+      { label: 'Padding', key: 'padding', type: 'text', group: 'general' },
+      { label: 'Margin', key: 'margin', type: 'text', group: 'general' },
+      { label: 'Container Width', key: 'containerClass', type: 'text', group: 'general' },
+      
+      // Media Styles
+      { label: 'Media Width', key: 'mediaStyles.width', type: 'text', group: 'media' },
+      { label: 'Media Height', key: 'mediaStyles.height', type: 'text', group: 'media' },
+      { label: 'Object Fit', key: 'mediaStyles.objectFit', type: 'select', options: ['contain', 'cover', 'fill', 'none', 'scale-down'], group: 'media' },
+      { label: 'Border Radius', key: 'mediaStyles.borderRadius', type: 'text', group: 'media' },
+      { label: 'Shadow', key: 'mediaStyles.shadow', type: 'text', group: 'media' },
+      { label: 'Aspect Ratio', key: 'mediaStyles.aspectRatio', type: 'text', group: 'media' },
+      
+      // Carousel Styles
+      { label: 'Gap Between Slides', key: 'carouselStyles.gap', type: 'text', group: 'carousel' },
+      { label: 'Show Navigation', key: 'carouselStyles.navigation', type: 'boolean', group: 'carousel' },
+      { label: 'Show Pagination', key: 'carouselStyles.pagination', type: 'boolean', group: 'carousel' },
+      { label: 'Enable Autoplay', key: 'carouselStyles.autoplay', type: 'boolean', group: 'carousel' },
+      { label: 'Autoplay Delay (ms)', key: 'carouselStyles.autoplayDelay', type: 'number', group: 'carousel' },
+      { label: 'Transition Effect', key: 'carouselStyles.effect', type: 'select', options: ['slide', 'fade', 'cube', 'coverflow', 'flip'], group: 'carousel' },
+      
+      // Caption Styles
+      { label: 'Caption Font Size', key: 'captionStyles.fontSize', type: 'text', group: 'caption' },
+      { label: 'Caption Font Weight', key: 'captionStyles.fontWeight', type: 'text', group: 'caption' },
+      { label: 'Caption Color', key: 'captionStyles.color', type: 'color', group: 'caption' },
+      { label: 'Caption Alignment', key: 'captionStyles.textAlign', type: 'select', options: ['left', 'center', 'right'], group: 'caption' },
+    ],
+  },
 ];

@@ -5,86 +5,101 @@ import type {
   PricingContent,
   ContactContent,
   CustomContent,
+  FlexContent,
+  SingleMediaContent,
+  MediaCarouselContent,
+  HeroStyles,
+  FeaturesStyles,
+  PricingStyles,
+  ContactStyles,
+  CustomStyles,
+  FlexStyles,
+  SingleMediaStyles,
+  MediaCarouselStyles,
 } from '~/types/section';
 import { HeroSection } from './sections/hero-section';
-import { ContactSection } from './sections/contact-section';
-import { CustomSection } from './sections/custom-section';
 import { FeaturesSection } from './sections/features-section';
 import { PricingSection } from './sections/pricing-section';
+import { ContactSection } from './sections/contact-section';
+import { CustomSection } from './sections/custom-section';
+import { FlexSection } from './sections/flex-section';
+import { SingleMediaSection } from './sections/single-media-section';
+import { MediaCarouselSection } from './sections/media-carousel-section';
 
 interface SectionRendererProps {
-  section: Section & { order: number; isVisible: boolean };
+  section: Section;
   className?: string;
 }
 
-export function SectionRenderer({
-  section,
-  className = '',
-}: SectionRendererProps) {
-  // Get theme variables from CSS
-  const themeStyles = {
-    primary: 'var(--color-primary)',
-    secondary: 'var(--color-secondary)',
-    background: 'var(--color-background)',
-    text: 'var(--color-text)',
-    accent: 'var(--color-accent)',
-  };
-  console.log('section', section);
-  const renderContent = () => {
-    switch (section.type) {
-      case 'hero':
-        return (
-          <HeroSection
-            content={section.content as HeroContent}
-            themeStyles={themeStyles}
-            styles={section.styles}
-          />
-        );
-      case 'features':
-        return (
-          <FeaturesSection
-            content={section.content as FeaturesContent}
-            themeStyles={themeStyles}
-            styles={section.styles}
-          />
-        );
-      case 'pricing':
-        return (
-          <PricingSection
-            content={section.content as PricingContent}
-            themeStyles={themeStyles}
-            styles={section.styles}
-          />
-        );
-      case 'contact':
-        return (
-          <ContactSection
-            content={section.content as ContactContent}
-            themeStyles={themeStyles}
-            styles={section.styles}
-          />
-        );
-      case 'custom':
-        return (
-          <CustomSection
-            content={section.content as CustomContent}
-            themeStyles={themeStyles}
-            styles={section.styles}
-          />
-        );
-      default:
-        console.warn(`Section type "${section.type}" not found`);
-        return null;
-    }
-  };
+export function SectionRenderer({ section, className }: SectionRendererProps) {
+  const { type, content, styles } = section;
 
-  return (
-    <section
-      className={`w-full ${className}`}
-      style={section.styles as React.CSSProperties}
-      data-section-id={section.id}
-    >
-      {renderContent()}
-    </section>
-  );
+  switch (type) {
+    case 'hero':
+      return (
+        <HeroSection
+          content={content as HeroContent}
+          styles={styles as Partial<HeroStyles>}
+          className={className}
+        />
+      );
+    case 'features':
+      return (
+        <FeaturesSection
+          content={content as FeaturesContent}
+          styles={styles as Partial<FeaturesStyles>}
+          className={className}
+        />
+      );
+    case 'pricing':
+      return (
+        <PricingSection
+          content={content as PricingContent}
+          styles={styles as Partial<PricingStyles>}
+          className={className}
+        />
+      );
+    case 'contact':
+      return (
+        <ContactSection
+          content={content as ContactContent}
+          styles={styles as Partial<ContactStyles>}
+          className={className}
+        />
+      );
+    case 'custom':
+      return (
+        <CustomSection
+          content={content as CustomContent}
+          styles={styles as Partial<CustomStyles>}
+          className={className}
+        />
+      );
+    case 'flex':
+      return (
+        <FlexSection
+          content={content as FlexContent}
+          styles={styles as Partial<FlexStyles>}
+          className={className}
+        />
+      );
+    case 'single-media':
+      return (
+        <SingleMediaSection
+          content={content as SingleMediaContent}
+          styles={styles as Partial<SingleMediaStyles>}
+          className={className}
+        />
+      );
+    case 'media-carousel':
+      return (
+        <MediaCarouselSection
+          content={content as MediaCarouselContent}
+          styles={styles as Partial<MediaCarouselStyles>}
+          className={className}
+        />
+      );
+    default:
+      return null;
+  }
 }

@@ -4,10 +4,17 @@ import { createServerClient } from '@supabase/auth-helpers-remix';
 import { SectionRenderer } from '~/components/section-renderer';
 import type { Theme } from '~/types/landing-page';
 import type { Section, SectionType } from '~/types/section';
+import { cn } from '~/lib/utils';
 
 interface LoaderData {
   sections: Section[];
   theme: Theme;
+  layoutSettings: {
+    useGap: boolean;
+    gapSize: number;
+    useContainer: boolean;
+    containerPadding: number;
+  };
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -21,7 +28,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   // First get the landing page id and theme
   const { data: landingPage } = await supabase
     .from('landing_pages')
-    .select('id, theme')
+    .select('id, theme, layout_settings')
     .order('created_at', { ascending: false })
     .limit(1)
     .single();
@@ -48,14 +55,23 @@ export async function loader({ request }: LoaderFunctionArgs) {
     return {
       ...typedSection,
       type: section.type as SectionType,
-      content: JSON.parse(JSON.stringify(section.content)), // Deep clone to remove Supabase's JSON types
+      content: JSON.parse(JSON.stringify(section.content)),
     };
   });
+
+  // Default layout settings
+  const defaultLayoutSettings = {
+    useGap: true,
+    gapSize: 8,
+    useContainer: true,
+    containerPadding: 16,
+  };
 
   return json<LoaderData>(
     {
       sections: typedSections,
       theme: landingPage.theme,
+      layoutSettings: landingPage.layout_settings || defaultLayoutSettings,
     },
     {
       headers: response.headers,
@@ -64,10 +80,17 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export default function Index() {
-  const { sections } = useLoaderData<typeof loader>();
-
+  const { sections, layoutSettings } = useLoaderData<typeof loader>();
+  const { useGap, gapSize, useContainer, containerPadding } = layoutSettings;
+  console.log('layoutSettings', layoutSettings);
   return (
-    <div>
+    <div
+      className={cn('flex flex-col')}
+      style={{
+        gap: useGap ? gapSize : undefined,
+        padding: useContainer ? `0 ${containerPadding}px` : undefined,
+      }}
+    >
       {sections.map((section) => (
         <SectionRenderer
           key={section.id}

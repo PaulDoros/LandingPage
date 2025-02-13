@@ -9,7 +9,14 @@ import type {
   CustomBlock,
   FlexContent,
   FlexComponent,
+  SingleMediaContent,
+  MediaCarouselContent,
 } from '~/types/section';
+
+interface PricingFeature {
+  name: string;
+  included: boolean;
+}
 
 export function getInitialContent(type: SectionType) {
   switch (type) {
@@ -118,13 +125,6 @@ export function getInitialContent(type: SectionType) {
                 isVisible: true,
               },
             },
-            styles: {
-              padding: 'p-6',
-              backgroundColor: 'bg-white',
-              borderRadius: 'rounded-lg',
-              shadow: 'shadow-sm',
-              hover: 'hover:shadow-md',
-            },
           } satisfies CustomBlock,
         ],
       } satisfies CustomContent;
@@ -154,6 +154,46 @@ export function getInitialContent(type: SectionType) {
           } as FlexComponent,
         ],
       } as FlexContent;
+
+    case 'single-media':
+      return {
+        media: {
+          id: '',
+          filePath: 'https://placehold.co/1600x900',
+          fileName: 'placeholder.jpg',
+          mimeType: 'image/jpeg',
+          position: 0,
+        },
+        caption: 'Add a caption for your media',
+      } satisfies SingleMediaContent;
+
+    case 'media-carousel':
+      return {
+        items: [
+          {
+            id: '',
+            filePath: 'https://placehold.co/1600x900/1',
+            fileName: 'placeholder-1.jpg',
+            mimeType: 'image/jpeg',
+            position: 0,
+          },
+          {
+            id: '',
+            filePath: 'https://placehold.co/1600x900/2',
+            fileName: 'placeholder-2.jpg',
+            mimeType: 'image/jpeg',
+            position: 1,
+          },
+          {
+            id: '',
+            filePath: 'https://placehold.co/1600x900/3',
+            fileName: 'placeholder-3.jpg',
+            mimeType: 'image/jpeg',
+            position: 2,
+          },
+        ],
+        showCaptions: true,
+      } satisfies MediaCarouselContent;
 
     default:
       throw new Error(`Unsupported section type: ${type}`);

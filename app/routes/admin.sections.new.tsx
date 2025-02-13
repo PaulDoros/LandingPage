@@ -47,6 +47,14 @@ export async function action({ request }: ActionFunctionArgs) {
   const type = formData.get('type') as SectionType;
   const landingPageId = formData.get('landingPageId') as string;
 
+  // First, try to update the type constraint if it doesn't exist
+  try {
+    await supabase.rpc('update_section_types_constraint');
+  } catch (error) {
+    console.error('Error updating section types constraint:', error);
+    // Continue even if this fails, as the constraint might already be updated
+  }
+
   // Get the current highest position
   const { data: lastSection } = await supabase
     .from('sections')
@@ -71,6 +79,7 @@ export async function action({ request }: ActionFunctionArgs) {
   });
 
   if (error) {
+    console.error('Error creating section:', error);
     return json({ error: error.message }, { status: 400 });
   }
 

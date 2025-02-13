@@ -1,14 +1,15 @@
 import {
   json,
-  redirect,
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
 } from '@remix-run/node';
-import { useLoaderData, Link } from '@remix-run/react';
+import { useLoaderData, Link, useParams } from '@remix-run/react';
 import { createServerClient } from '@supabase/auth-helpers-remix';
 import { SectionEditor } from '~/components/sections/section-editor';
 import { Button } from '~/components/ui/Button';
 import { Card } from '~/components/ui/card';
+import { MediaUpload } from '~/components/sections/media-upload';
+import type { MediaItem } from '~/types/section';
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const response = new Response();
@@ -68,11 +69,17 @@ export async function action({ request, params }: ActionFunctionArgs) {
     return json({ error: error.message }, { status: 400 });
   }
 
-  return redirect('/admin/sections');
+  return json({ success: true });
 }
 
 export default function AdminSectionEdit() {
   const { section } = useLoaderData<typeof loader>();
+  const { id: sectionId } = useParams();
+
+  const handleUploadComplete = (media: MediaItem) => {
+    // You can update the UI or trigger a refresh here
+    console.log('Media uploaded:', media);
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -99,6 +106,11 @@ export default function AdminSectionEdit() {
           }}
         />
       </Card>
+
+      <MediaUpload
+        sectionId={sectionId!}
+        onUploadComplete={handleUploadComplete}
+      />
     </div>
   );
 }
