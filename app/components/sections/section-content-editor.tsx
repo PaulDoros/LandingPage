@@ -11,6 +11,7 @@ import { MediaUpload } from './media-upload';
 import { Button } from '~/components/ui/Button';
 import { Input } from '~/components/ui/input';
 import { Textarea } from '~/components/ui/textarea';
+import { extractMediaUrl } from '~/lib/utils';
 
 interface SectionContentEditorProps {
   section: Section;
@@ -180,6 +181,7 @@ export function SectionContentEditor({
               </div>
             ) : (
               <MediaUpload
+                url={extractMediaUrl(section.media_metadata)}
                 sectionId={section.id}
                 onUploadComplete={handleMediaUploadComplete}
               />
@@ -240,7 +242,10 @@ export function SectionContentEditor({
                   </Button>
                 </div>
               ))}
-              <MediaUpload onUploadComplete={handleMediaUploadComplete} />
+              <MediaUpload
+                sectionId={section.id}
+                onUploadComplete={handleMediaUploadComplete}
+              />
             </div>
           </div>
           <div className="flex items-center gap-2">

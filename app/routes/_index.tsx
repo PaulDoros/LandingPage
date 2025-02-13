@@ -3,7 +3,7 @@ import { useLoaderData } from '@remix-run/react';
 import { createServerClient } from '@supabase/auth-helpers-remix';
 import { SectionRenderer } from '~/components/section-renderer';
 import type { Theme } from '~/types/landing-page';
-import type { Section, SectionType } from '~/types/section';
+import type { Section, SectionType, SectionStyles } from '~/types/section';
 import { cn } from '~/lib/utils';
 
 interface LoaderData {
@@ -51,12 +51,27 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   // Type assertion to handle Supabase's JSON types
   const typedSections = sections.map((section) => {
-    const typedSection = section as unknown as Section;
+    const parsedContent = section.content
+      ? JSON.parse(JSON.stringify(section.content))
+      : null;
+
+    const parsedStyles = section.styles
+      ? (JSON.parse(JSON.stringify(section.styles)) as SectionStyles)
+      : undefined;
+
+    if (!parsedContent) {
+      throw new Error(`Section ${section.id} has invalid content`);
+    }
+
     return {
-      ...typedSection,
+      id: section.id,
       type: section.type as SectionType,
-      content: JSON.parse(JSON.stringify(section.content)),
-    };
+      content: parsedContent,
+      styles: parsedStyles,
+      position: section.position,
+      is_visible: section.is_visible,
+      landing_page_id: section.landing_page_id,
+    } satisfies Section;
   });
 
   // Default layout settings
@@ -98,12 +113,10 @@ export default function Index() {
             id: section.id,
             type: section.type,
             content: section.content,
-            styles: section.styles,
-            order: section.position,
-            isVisible: section.is_visible,
-            landing_page_id: section.landing_page_id,
+            styles: section.styles || {},
             position: section.position,
             is_visible: section.is_visible,
+            landing_page_id: section.landing_page_id,
           }}
           className="py-12 md:py-16"
         />

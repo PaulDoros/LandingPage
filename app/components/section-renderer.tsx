@@ -86,6 +86,7 @@ export function SectionRenderer({ section, className }: SectionRendererProps) {
     case 'single-media':
       return (
         <SingleMediaSection
+          media_metadata={section.media_metadata}
           content={content as SingleMediaContent}
           styles={styles as Partial<SingleMediaStyles>}
           className={className}

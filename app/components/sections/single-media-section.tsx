@@ -1,5 +1,5 @@
 import type { SingleMediaContent, SingleMediaStyles } from '~/types/section';
-import { cn } from '~/lib/utils';
+import { cn, extractMediaUrl } from '~/lib/utils';
 
 interface SingleMediaSectionProps {
   content: SingleMediaContent;
@@ -15,8 +15,11 @@ export function SingleMediaSection({
   className,
   isEditing = false,
   onMediaChange,
+  media_metadata,
 }: SingleMediaSectionProps) {
   const { media, caption, link } = content;
+
+  console.log(extractMediaUrl(media_metadata));
   const isVideo = media?.mimeType?.startsWith('video/');
   console.log(content);
   const MediaWrapper = link ? 'a' : 'div';
@@ -58,7 +61,7 @@ export function SingleMediaSection({
             >
               {isVideo ? (
                 <video
-                  src={media.url}
+                  src={extractMediaUrl(media_metadata) || media.url}
                   controls
                   className="h-full w-full"
                   style={{
@@ -69,7 +72,7 @@ export function SingleMediaSection({
                 </video>
               ) : (
                 <img
-                  src={media.url}
+                  src={extractMediaUrl(media_metadata) || media.url}
                   alt={media.altText || caption || ''}
                   className="h-full w-full"
                   style={{

@@ -15,3 +15,12 @@ export function formatFileSize(bytes: number): string {
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
 }
+
+
+export const extractMediaUrl = (mediaMetadata: Record<string, any>) => {
+  // Extract first key (assuming there's only one media object)
+  const mediaKey = Object.keys(mediaMetadata)[0];
+
+  // Return URL if exists
+  return mediaMetadata[mediaKey]?.url || null;
+};
