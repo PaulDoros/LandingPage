@@ -9,40 +9,36 @@ export interface BaseSection {
   styles?: SectionStyles;
 }
 
-export interface SectionStyles {
+export interface ButtonStyles {
+  backgroundColor?: string;
+  textColor?: string;
+  hoverColor?: string;
+  borderRadius?: string;
+  borderColor?: string;
+}
+
+export interface ButtonStylesGroup {
+  primary?: ButtonStyles;
+  secondary?: ButtonStyles;
+  outline?: ButtonStyles;
+}
+
+export interface BaseStyles {
   backgroundColor?: string;
   textColor?: string;
   padding?: string;
-  paddingX?: string;
-  paddingY?: string;
   margin?: string;
-  marginX?: string;
-  marginY?: string;
   containerClass?: string;
   customClasses?: string[];
-  useContainer?: boolean;
-  containerPadding?: string;
+  borderRadius?: string;
   borderColor?: string;
   borderWidth?: string;
-  borderRadius?: string;
-  buttonStyles?: {
-    primary?: {
-      backgroundColor?: string;
-      textColor?: string;
-      hoverColor?: string;
-    };
-    secondary?: {
-      backgroundColor?: string;
-      textColor?: string;
-      hoverColor?: string;
-    };
-    outline?: {
-      backgroundColor?: string;
-      textColor?: string;
-      borderColor?: string;
-      hoverColor?: string;
-    };
-  };
+  paddingX?: string;
+  paddingY?: string;
+  marginX?: string;
+  marginY?: string;
+  useContainer?: boolean;
+  containerPadding?: string;
   textStyles?: {
     heading1?: string;
     heading2?: string;
@@ -61,6 +57,107 @@ export interface SectionStyles {
     textColor?: string;
   };
 }
+
+export interface HeroStyles extends BaseStyles {
+  type: 'hero';
+  imageStyles?: {
+    borderRadius?: string;
+    shadow?: string;
+    hover?: string;
+  };
+  subtitleStyles?: {
+    fontSize?: string;
+    fontWeight?: string;
+    color?: string;
+  };
+  headingStyles?: {
+    color?: string;
+    fontSize?: string;
+    fontWeight?: string;
+  };
+  buttonStyles?: ButtonStyles;
+}
+
+export interface FeaturesStyles extends BaseStyles {
+  type: 'features';
+  cardStyles?: {
+    backgroundColor?: string;
+    borderRadius?: string;
+    shadow?: string;
+    hover?: string;
+    padding?: string;
+  };
+  iconStyles?: {
+    size?: string;
+    color?: string;
+    backgroundColor?: string;
+  };
+  gridGap?: string;
+  columns?: string;
+}
+
+export interface PricingStyles extends BaseStyles {
+  type: 'pricing';
+  cardStyles?: {
+    backgroundColor?: string;
+    borderRadius?: string;
+    shadow?: string;
+    hover?: string;
+    padding?: string;
+    highlightedScale?: string;
+  };
+  featuresListStyle?: {
+    iconColor?: string;
+    spacing?: string;
+  };
+  buttonStyles?: ButtonStyles;
+}
+
+export interface ContactStyles extends BaseStyles {
+  type: 'contact';
+  formStyles?: {
+    backgroundColor?: string;
+    borderRadius?: string;
+    shadow?: string;
+    padding?: string;
+  };
+  inputStyles?: {
+    backgroundColor?: string;
+    borderColor?: string;
+    borderRadius?: string;
+    focusRing?: string;
+  };
+  buttonStyles?: ButtonStyles;
+}
+
+export interface CustomStyles extends BaseStyles {
+  type: 'custom';
+  blockStyles?: {
+    backgroundColor?: string;
+    borderRadius?: string;
+    shadow?: string;
+    padding?: string;
+    margin?: string;
+    hover?: string;
+  };
+  spacing?: string;
+  alignment?: 'left' | 'center' | 'right';
+}
+
+export interface FlexStyles extends BaseStyles {
+  type: 'flex';
+  layout: 'flex' | 'grid';
+  columns?: number;
+  gap?: number;
+}
+
+export type SectionStyles = 
+  | HeroStyles
+  | FeaturesStyles
+  | PricingStyles
+  | ContactStyles
+  | CustomStyles
+  | FlexStyles;
 
 export interface HeroContent {
   title: string;
@@ -140,7 +237,14 @@ export interface CustomContent {
 
 export interface FlexComponent {
   id: string;
-  type: 'heading' | 'text' | 'image' | 'carousel' | 'button' | 'divider' | 'spacer';
+  type:
+    | 'heading'
+    | 'text'
+    | 'image'
+    | 'carousel'
+    | 'button'
+    | 'divider'
+    | 'spacer';
   content: {
     text?: string;
     images?: string[];
@@ -162,24 +266,24 @@ export interface FlexComponent {
       bottom: number;
       left: number;
     };
-    
+
     // Typography
     fontSize?: number; // in pixels
     fontWeight?: number; // 100-900
     lineHeight?: number; // multiplier
     letterSpacing?: number; // in pixels
     textAlign?: 'left' | 'center' | 'right';
-    
+
     // Colors
     textColor?: string;
     backgroundColor?: string;
-    
+
     // Border
     borderWidth?: number;
     borderColor?: string;
     borderStyle?: 'solid' | 'dashed' | 'dotted';
     borderRadius?: number;
-    
+
     // Effects
     opacity?: number; // 0-100
     shadow?: {
@@ -189,14 +293,14 @@ export interface FlexComponent {
       spread: number;
       color: string;
     };
-    
+
     // Animation
     transition?: {
       property: string;
       duration: number;
       timing: 'linear' | 'ease' | 'ease-in' | 'ease-out';
     };
-    
+
     // Hover States
     hover?: {
       textColor?: string;
@@ -216,7 +320,12 @@ export interface FlexContent {
   components: FlexComponent[];
 }
 
-export type SectionContent = HeroContent | FeaturesContent | PricingContent | ContactContent | CustomContent;
+export type SectionContent =
+  | HeroContent
+  | FeaturesContent
+  | PricingContent
+  | ContactContent
+  | CustomContent;
 
 export interface Section extends BaseSection {
   content: SectionContent;
@@ -229,4 +338,4 @@ export interface ThemeStyles {
   text: string;
   accent: string;
   borderRadius?: string;
-} 
+}

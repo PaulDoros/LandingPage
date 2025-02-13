@@ -1,7 +1,13 @@
 import { useState } from 'react';
 import { Button } from './Button';
 import { Input } from './input';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from './dialog';
 
 interface ImagePickerProps {
   label: string;
@@ -13,23 +19,28 @@ interface ImagePickerProps {
 const defaultImages = [
   {
     url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2064&auto=format&fit=crop',
-    title: 'Abstract Waves'
+    title: 'Abstract Waves',
   },
   {
     url: 'https://images.unsplash.com/photo-1579546929662-711aa81148cf?q=80&w=2070&auto=format&fit=crop',
-    title: 'Gradient Sphere'
+    title: 'Gradient Sphere',
   },
   {
     url: 'https://images.unsplash.com/photo-1557672172-298e090bd0f1?q=80&w=2067&auto=format&fit=crop',
-    title: 'Colorful Background'
+    title: 'Colorful Background',
   },
   {
     url: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=2070&auto=format&fit=crop',
-    title: 'Neon Lights'
-  }
+    title: 'Neon Lights',
+  },
 ];
 
-export function ImagePicker({ label, name, value, onChange }: ImagePickerProps) {
+export function ImagePicker({
+  label,
+  name,
+  value,
+  onChange,
+}: ImagePickerProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [customUrl, setCustomUrl] = useState('');
 
@@ -44,7 +55,7 @@ export function ImagePicker({ label, name, value, onChange }: ImagePickerProps) 
 
   return (
     <div className="space-y-2">
-      <label className="block text-sm font-medium text-foreground">
+      <label className="text-foreground block text-sm font-medium">
         {label}
       </label>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -112,4 +123,4 @@ export function ImagePicker({ label, name, value, onChange }: ImagePickerProps) 
       <input type="hidden" name={name} value={value || ''} />
     </div>
   );
-} 
+}

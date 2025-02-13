@@ -1,14 +1,14 @@
-import type { 
-  SectionType, 
-  HeroContent, 
-  FeaturesContent, 
-  PricingContent, 
-  ContactContent, 
+import type {
+  SectionType,
+  HeroContent,
+  FeaturesContent,
+  PricingContent,
+  ContactContent,
   CustomContent,
   PricingTier,
   CustomBlock,
   FlexContent,
-  FlexComponent
+  FlexComponent,
 } from '~/types/section';
 
 export function getInitialContent(type: SectionType) {
@@ -19,7 +19,8 @@ export function getInitialContent(type: SectionType) {
         subtitle: 'Create beautiful, responsive landing pages in minutes',
         ctaText: 'Get Started',
         ctaLink: '/authenticate/sign-up',
-        imageUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2064&auto=format&fit=crop'
+        imageUrl:
+          'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2064&auto=format&fit=crop',
       } satisfies HeroContent;
 
     case 'features':
@@ -29,20 +30,23 @@ export function getInitialContent(type: SectionType) {
         features: [
           {
             title: 'Easy Customization',
-            description: 'Customize every aspect of your landing page with our intuitive editor',
-            icon: 'https://api.iconify.design/heroicons:paint-brush.svg'
+            description:
+              'Customize every aspect of your landing page with our intuitive editor',
+            icon: 'https://api.iconify.design/heroicons:paint-brush.svg',
           },
           {
             title: 'Responsive Design',
-            description: 'Your landing page looks great on all devices, from mobile to desktop',
-            icon: 'https://api.iconify.design/heroicons:device-phone-mobile.svg'
+            description:
+              'Your landing page looks great on all devices, from mobile to desktop',
+            icon: 'https://api.iconify.design/heroicons:device-phone-mobile.svg',
           },
           {
             title: 'Fast Loading',
-            description: 'Optimized for speed to ensure your visitors have the best experience',
-            icon: 'https://api.iconify.design/heroicons:rocket-launch.svg'
-          }
-        ]
+            description:
+              'Optimized for speed to ensure your visitors have the best experience',
+            icon: 'https://api.iconify.design/heroicons:rocket-launch.svg',
+          },
+        ],
       } satisfies FeaturesContent;
 
     case 'pricing':
@@ -59,10 +63,10 @@ export function getInitialContent(type: SectionType) {
               { name: 'Basic Analytics', included: true },
               { name: 'Community Support', included: true },
               { name: 'Custom Domain', included: false },
-              { name: 'Advanced Analytics', included: false }
+              { name: 'Advanced Analytics', included: false },
             ] satisfies PricingFeature[],
             ctaText: 'Start Free',
-            ctaLink: '/authenticate/sign-up'
+            ctaLink: '/authenticate/sign-up',
           } satisfies PricingTier,
           {
             name: 'Pro',
@@ -73,13 +77,13 @@ export function getInitialContent(type: SectionType) {
               { name: 'Advanced Analytics', included: true },
               { name: 'Priority Support', included: true },
               { name: 'Custom Domain', included: true },
-              { name: 'A/B Testing', included: true }
+              { name: 'A/B Testing', included: true },
             ] satisfies PricingFeature[],
             ctaText: 'Get Started',
             ctaLink: '/authenticate/sign-up',
-            highlighted: true
-          } satisfies PricingTier
-        ]
+            highlighted: true,
+          } satisfies PricingTier,
+        ],
       } satisfies PricingContent;
 
     case 'contact':
@@ -90,7 +94,7 @@ export function getInitialContent(type: SectionType) {
         phone: '+1 (555) 123-4567',
         address: '123 Main St, City, Country',
         formTitle: 'Send us a message',
-        formSubtitle: 'We will get back to you as soon as possible'
+        formSubtitle: 'We will get back to you as soon as possible',
       } satisfies ContactContent;
 
     case 'custom':
@@ -105,24 +109,24 @@ export function getInitialContent(type: SectionType) {
               description: 'This is a custom card block',
               badge: {
                 text: 'New',
-                isVisible: true
+                isVisible: true,
               },
               button: {
                 text: 'Learn More',
                 link: '#',
                 variant: 'primary',
-                isVisible: true
-              }
+                isVisible: true,
+              },
             },
             styles: {
               padding: 'p-6',
               backgroundColor: 'bg-white',
               borderRadius: 'rounded-lg',
               shadow: 'shadow-sm',
-              hover: 'hover:shadow-md'
-            }
-          } satisfies CustomBlock
-        ]
+              hover: 'hover:shadow-md',
+            },
+          } satisfies CustomBlock,
+        ],
       } satisfies CustomContent;
 
     case 'flex':
@@ -135,7 +139,7 @@ export function getInitialContent(type: SectionType) {
             id: crypto.randomUUID(),
             type: 'heading',
             content: {
-              text: 'Welcome to Flex Section'
+              text: 'Welcome to Flex Section',
             },
             styles: {
               width: 100,
@@ -145,13 +149,13 @@ export function getInitialContent(type: SectionType) {
               fontWeight: 700,
               textAlign: 'center',
               textColor: 'var(--color-text)',
-              backgroundColor: 'transparent'
-            }
-          } as FlexComponent
-        ]
+              backgroundColor: 'transparent',
+            },
+          } as FlexComponent,
+        ],
       } as FlexContent;
 
     default:
       throw new Error(`Unsupported section type: ${type}`);
   }
-} 
+}

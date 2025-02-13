@@ -3,7 +3,7 @@ import { ThemeToggle } from './theme-toggle';
 
 export function Navigation() {
   return (
-    <nav className="fixed top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <nav className="border-border/40 bg-background/95 supports-[backdrop-filter]:bg-background/60 fixed top-0 z-50 w-full border-b backdrop-blur">
       <div className="container flex h-16 items-center justify-between px-4">
         <div className="flex gap-6 md:gap-10">
           <Link to="/" className="flex items-center space-x-2">
@@ -12,19 +12,19 @@ export function Navigation() {
           <div className="hidden gap-6 md:flex">
             <Link
               to="/#features"
-              className="flex items-center text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+              className="text-muted-foreground hover:text-primary flex items-center text-sm font-medium transition-colors"
             >
               Features
             </Link>
             <Link
               to="/#pricing"
-              className="flex items-center text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+              className="text-muted-foreground hover:text-primary flex items-center text-sm font-medium transition-colors"
             >
               Pricing
             </Link>
             <Link
               to="/#contact"
-              className="flex items-center text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+              className="text-muted-foreground hover:text-primary flex items-center text-sm font-medium transition-colors"
             >
               Contact
             </Link>
@@ -36,4 +36,4 @@ export function Navigation() {
       </div>
     </nav>
   );
-} 
+}

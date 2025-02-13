@@ -72,13 +72,15 @@ export interface ContactContent {
 
 export interface CustomBlock {
   type: 'heading' | 'text' | 'button' | 'image' | 'video' | 'html';
-  content: string | {
-    text?: string;
-    link?: string;
-    variant?: 'primary' | 'secondary' | 'outline';
-    src?: string;
-    alt?: string;
-  };
+  content:
+    | string
+    | {
+        text?: string;
+        link?: string;
+        variant?: 'primary' | 'secondary' | 'outline';
+        src?: string;
+        alt?: string;
+      };
   styles: Record<string, string>;
 }
 
@@ -102,7 +104,7 @@ export interface PricingContent {
   }>;
 }
 
-export type SectionContent = 
+export type SectionContent =
   | { type: 'hero'; content: HeroContent }
   | { type: 'features'; content: FeaturesContent }
   | { type: 'testimonials'; content: TestimonialsContent }
@@ -142,4 +144,4 @@ export interface LandingPageConfig {
   meta: Meta;
   created_at: string;
   updated_at: string;
-} 
+}

@@ -11,7 +11,11 @@ interface CustomSectionProps {
   };
 }
 
-function renderBlock(block: CustomContent['blocks'][0], index: number, themeStyles?: CustomSectionProps['themeStyles']) {
+function renderBlock(
+  block: CustomContent['blocks'][0],
+  index: number,
+  themeStyles?: CustomSectionProps['themeStyles'],
+) {
   const { type, content } = block;
 
   switch (type) {
@@ -23,29 +27,38 @@ function renderBlock(block: CustomContent['blocks'][0], index: number, themeStyl
           style={{
             backgroundColor: themeStyles?.background,
             borderColor: `${themeStyles?.text}20`,
-            color: themeStyles?.text
+            color: themeStyles?.text,
           }}
         >
           {content.title && (
-            <h3 className="text-xl font-semibold mb-2" style={{ color: themeStyles?.text }}>
+            <h3
+              className="mb-2 text-xl font-semibold"
+              style={{ color: themeStyles?.text }}
+            >
               {content.title}
             </h3>
           )}
           {content.description && (
-            <p className="text-muted-foreground mb-4" style={{ color: themeStyles?.text }}>
+            <p
+              className="text-muted-foreground mb-4"
+              style={{ color: themeStyles?.text }}
+            >
               {content.description}
             </p>
           )}
           {content.badge?.isVisible && (
             <span
-              className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium mb-4"
-              style={{ backgroundColor: `${themeStyles?.primary}20`, color: themeStyles?.primary }}
+              className="mb-4 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
+              style={{
+                backgroundColor: `${themeStyles?.primary}20`,
+                color: themeStyles?.primary,
+              }}
             >
               {content.badge.text}
             </span>
           )}
           {content.features && (
-            <ul className="space-y-2 mb-4">
+            <ul className="mb-4 space-y-2">
               {content.features.map((feature, i) => (
                 <li key={i} className="flex items-center gap-2">
                   <svg
@@ -56,7 +69,7 @@ function renderBlock(block: CustomContent['blocks'][0], index: number, themeStyl
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="w-5 h-5"
+                    className="h-5 w-5"
                     style={{ color: themeStyles?.primary }}
                   >
                     <polyline points="20 6 9 17 4 12" />
@@ -71,9 +84,18 @@ function renderBlock(block: CustomContent['blocks'][0], index: number, themeStyl
               href={content.button.link}
               className="inline-flex w-full items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:opacity-90"
               style={{
-                backgroundColor: content.button.variant === 'primary' ? themeStyles?.primary : themeStyles?.background,
-                color: content.button.variant === 'primary' ? '#ffffff' : themeStyles?.text,
-                border: content.button.variant === 'primary' ? 'none' : `1px solid ${themeStyles?.text}20`
+                backgroundColor:
+                  content.button.variant === 'primary'
+                    ? themeStyles?.primary
+                    : themeStyles?.background,
+                color:
+                  content.button.variant === 'primary'
+                    ? '#ffffff'
+                    : themeStyles?.text,
+                border:
+                  content.button.variant === 'primary'
+                    ? 'none'
+                    : `1px solid ${themeStyles?.text}20`,
               }}
             >
               {content.button.text}
@@ -89,16 +111,22 @@ function renderBlock(block: CustomContent['blocks'][0], index: number, themeStyl
           className="rounded-lg p-6"
           style={{
             backgroundColor: `${themeStyles?.primary}10`,
-            color: themeStyles?.text
+            color: themeStyles?.text,
           }}
         >
           {content.title && (
-            <h3 className="text-xl font-semibold mb-2" style={{ color: themeStyles?.text }}>
+            <h3
+              className="mb-2 text-xl font-semibold"
+              style={{ color: themeStyles?.text }}
+            >
               {content.title}
             </h3>
           )}
           {content.description && (
-            <p className="text-muted-foreground" style={{ color: themeStyles?.text }}>
+            <p
+              className="text-muted-foreground"
+              style={{ color: themeStyles?.text }}
+            >
               {content.description}
             </p>
           )}
@@ -109,16 +137,22 @@ function renderBlock(block: CustomContent['blocks'][0], index: number, themeStyl
       return (
         <div
           key={index}
-          className="text-center py-12"
+          className="py-12 text-center"
           style={{ color: themeStyles?.text }}
         >
           {content.title && (
-            <h3 className="text-2xl font-bold mb-4" style={{ color: themeStyles?.text }}>
+            <h3
+              className="mb-4 text-2xl font-bold"
+              style={{ color: themeStyles?.text }}
+            >
               {content.title}
             </h3>
           )}
           {content.description && (
-            <p className="text-muted-foreground mb-6" style={{ color: themeStyles?.text }}>
+            <p
+              className="text-muted-foreground mb-6"
+              style={{ color: themeStyles?.text }}
+            >
               {content.description}
             </p>
           )}
@@ -128,7 +162,7 @@ function renderBlock(block: CustomContent['blocks'][0], index: number, themeStyl
               className="inline-flex items-center justify-center rounded-md px-6 py-3 text-base font-medium transition-colors hover:opacity-90"
               style={{
                 backgroundColor: themeStyles?.primary,
-                color: '#ffffff'
+                color: '#ffffff',
               }}
             >
               {content.button.text}
@@ -145,11 +179,11 @@ function renderBlock(block: CustomContent['blocks'][0], index: number, themeStyl
           style={{
             backgroundColor: themeStyles?.background,
             borderColor: `${themeStyles?.text}20`,
-            color: themeStyles?.text
+            color: themeStyles?.text,
           }}
         >
           {content.description && (
-            <p className="text-lg mb-6" style={{ color: themeStyles?.text }}>
+            <p className="mb-6 text-lg" style={{ color: themeStyles?.text }}>
               {content.description}
             </p>
           )}
@@ -159,15 +193,21 @@ function renderBlock(block: CustomContent['blocks'][0], index: number, themeStyl
                 <img
                   src={content.author.avatarUrl}
                   alt={content.author.name}
-                  className="w-12 h-12 rounded-full object-cover"
+                  className="h-12 w-12 rounded-full object-cover"
                 />
               )}
               <div>
-                <div className="font-semibold" style={{ color: themeStyles?.text }}>
+                <div
+                  className="font-semibold"
+                  style={{ color: themeStyles?.text }}
+                >
                   {content.author.name}
                 </div>
                 {content.author.title && (
-                  <div className="text-sm text-muted-foreground" style={{ color: themeStyles?.text }}>
+                  <div
+                    className="text-muted-foreground text-sm"
+                    style={{ color: themeStyles?.text }}
+                  >
                     {content.author.title}
                   </div>
                 )}
@@ -186,24 +226,26 @@ export function CustomSection({ content, themeStyles }: CustomSectionProps) {
   return (
     <div className="container mx-auto px-4">
       {content.title && (
-        <h2 
-          className="text-3xl font-bold text-center mb-4"
+        <h2
+          className="mb-4 text-center text-3xl font-bold"
           style={{ color: themeStyles?.text }}
         >
           {content.title}
         </h2>
       )}
       {content.subtitle && (
-        <p 
-          className="text-xl text-muted-foreground text-center mb-8"
+        <p
+          className="text-muted-foreground mb-8 text-center text-xl"
           style={{ color: themeStyles?.text }}
         >
           {content.subtitle}
         </p>
       )}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {content.blocks.map((block, index) => renderBlock(block, index, themeStyles))}
+        {content.blocks.map((block, index) =>
+          renderBlock(block, index, themeStyles),
+        )}
       </div>
     </div>
   );
-} 
+}

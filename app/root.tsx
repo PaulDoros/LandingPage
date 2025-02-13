@@ -1,7 +1,6 @@
-import { LinksFunction, MetaFunction, json } from "@remix-run/node";
+import { LinksFunction, MetaFunction, json } from '@remix-run/node';
 import { createClient } from '@supabase/supabase-js';
 import { Toaster } from 'sonner';
-
 
 import { ThemeProvider } from '~/components/theme-provider';
 import { Layout } from '~/components/layout';
@@ -18,7 +17,7 @@ import {
   isRouteErrorResponse,
   useRouteError,
 } from '@remix-run/react';
-import { useState } from "react";
+import { useState } from 'react';
 import styles from '~/styles/globals.css?url';
 // Define default theme as a constant to be used across the application
 const DEFAULT_THEME = {
@@ -49,7 +48,10 @@ export const links: LinksFunction = () => [
 export const meta: MetaFunction = () => {
   return [
     { title: 'Landing Page Builder' },
-    { name: 'description', content: 'A fully customizable landing page builder' },
+    {
+      name: 'description',
+      content: 'A fully customizable landing page builder',
+    },
     { name: 'viewport', content: 'width=device-width,initial-scale=1' },
     { httpEquiv: 'x-ua-compatible', content: 'ie=edge' },
     { httpEquiv: 'cache-control', content: 'no-cache' },
@@ -65,7 +67,7 @@ interface LoaderData {
 export async function loader() {
   const supabase = createClient(
     process.env.SUPABASE_URL!,
-    process.env.SUPABASE_ANON_KEY!
+    process.env.SUPABASE_ANON_KEY!,
   );
 
   try {
@@ -86,18 +88,29 @@ export async function loader() {
       colors: {
         primary: themeData.primary_color ?? DEFAULT_THEME.colors.primary,
         secondary: themeData.secondary_color ?? DEFAULT_THEME.colors.secondary,
-        background: themeData.background_color ?? DEFAULT_THEME.colors.background,
+        background:
+          themeData.background_color ?? DEFAULT_THEME.colors.background,
         text: themeData.text_color ?? DEFAULT_THEME.colors.text,
         accent: themeData.accent_color ?? DEFAULT_THEME.colors.accent,
       },
       typography: {
-        fontFamily: themeData.font_family ?? DEFAULT_THEME.typography.fontFamily,
+        fontFamily:
+          themeData.font_family ?? DEFAULT_THEME.typography.fontFamily,
         fontSize: {
-          base: themeData.font_size_base ?? DEFAULT_THEME.typography.fontSize.base,
-          heading1: themeData.font_size_h1 ?? DEFAULT_THEME.typography.fontSize.heading1,
-          heading2: themeData.font_size_h2 ?? DEFAULT_THEME.typography.fontSize.heading2,
-          heading3: themeData.font_size_h3 ?? DEFAULT_THEME.typography.fontSize.heading3,
-          paragraph: themeData.font_size_paragraph ?? DEFAULT_THEME.typography.fontSize.paragraph,
+          base:
+            themeData.font_size_base ?? DEFAULT_THEME.typography.fontSize.base,
+          heading1:
+            themeData.font_size_h1 ??
+            DEFAULT_THEME.typography.fontSize.heading1,
+          heading2:
+            themeData.font_size_h2 ??
+            DEFAULT_THEME.typography.fontSize.heading2,
+          heading3:
+            themeData.font_size_h3 ??
+            DEFAULT_THEME.typography.fontSize.heading3,
+          paragraph:
+            themeData.font_size_paragraph ??
+            DEFAULT_THEME.typography.fontSize.paragraph,
         },
       },
     };
@@ -112,8 +125,9 @@ export async function loader() {
 export default function App() {
   const { theme } = useLoaderData<LoaderData>();
   const location = useLocation();
-  const isAuthRoute = location.pathname.startsWith('/authenticate') || 
-                     location.pathname.startsWith('/auth');
+  const isAuthRoute =
+    location.pathname.startsWith('/authenticate') ||
+    location.pathname.startsWith('/auth');
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -146,8 +160,9 @@ export function ErrorBoundary() {
   const error = useRouteError();
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const isAuthRoute = location.pathname.startsWith('/authenticate') || 
-                     location.pathname.startsWith('/auth');
+  const isAuthRoute =
+    location.pathname.startsWith('/authenticate') ||
+    location.pathname.startsWith('/auth');
 
   function getErrorContent() {
     if (isRouteErrorResponse(error)) {
@@ -183,32 +198,32 @@ export function ErrorBoundary() {
       </head>
       <body className="min-h-screen font-sans antialiased">
         <ThemeProvider theme={DEFAULT_THEME}>
-          <div className="min-h-screen flex items-center justify-center p-4">
-            <div className="max-w-md w-full space-y-8 text-center">
+          <div className="flex min-h-screen items-center justify-center p-4">
+            <div className="w-full max-w-md space-y-8 text-center">
               <div className="space-y-4">
                 <h1 className="text-4xl font-bold text-[var(--color-primary)]">
                   {errorContent.status}
                 </h1>
-                <h2 className="text-2xl font-semibold">
-                  {errorContent.title}
-                </h2>
+                <h2 className="text-2xl font-semibold">{errorContent.title}</h2>
                 <p className="text-[var(--color-text)] opacity-80">
                   {errorContent.message}
                 </p>
-                <div className="pt-6 space-y-4">
-                <button
+                <div className="space-y-4 pt-6">
+                  <button
                     type="button"
                     onClick={() => {
                       console.log('Button clicked');
                       setIsOpen(!isOpen);
                     }}
                     className="inline-flex items-center justify-center rounded-md bg-[var(--color-primary)] px-6 py-3 text-base font-medium text-white transition-colors hover:bg-[var(--color-primary)]/90"
-                >
+                  >
                     {isOpen ? 'Hide Content' : 'Show Content'}
-                </button>
+                  </button>
                   {isOpen && (
-                    <div className="p-4 border rounded-md bg-white/10">
-                      <p className="text-white">Additional error details will be shown here.</p>
+                    <div className="rounded-md border bg-white/10 p-4">
+                      <p className="text-white">
+                        Additional error details will be shown here.
+                      </p>
                     </div>
                   )}
                   <a
@@ -228,5 +243,3 @@ export function ErrorBoundary() {
     </html>
   );
 }
-
-

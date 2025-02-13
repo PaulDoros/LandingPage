@@ -1,6 +1,8 @@
 # Landing Page Builder
 
-A modern, customizable landing page builder built with Remix, Supabase, and TailwindCSS. This application allows users to create and customize their landing pages with a user-friendly admin interface.
+A modern, customizable landing page builder built with Remix, Supabase, and
+TailwindCSS. This application allows users to create and customize their landing
+pages with a user-friendly admin interface.
 
 ## Features
 
@@ -30,23 +32,28 @@ A modern, customizable landing page builder built with Remix, Supabase, and Tail
 ## Getting Started
 
 1. Clone the repository:
+
    ```bash
    git clone <repository-url>
    cd landing-page-builder
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
 
-3. Create a Supabase project and set up the following environment variables in a `.env` file:
+3. Create a Supabase project and set up the following environment variables in a
+   `.env` file:
+
    ```env
    SUPABASE_URL=your_supabase_url
    SUPABASE_ANON_KEY=your_supabase_anon_key
    ```
 
 4. Set up the database schema in Supabase:
+
    ```sql
    -- Create landing_pages table
    create table landing_pages (
@@ -99,12 +106,14 @@ app/
 ## Features in Detail
 
 ### Landing Page
+
 - Customizable sections
 - Dynamic content loading
 - Responsive design
 - Theme integration
 
 ### Admin Dashboard
+
 - Secure authentication
 - Real-time preview
 - Theme customization
@@ -112,12 +121,14 @@ app/
 - QR code generator
 
 ### Theme Customization
+
 - Color picker for primary, secondary, and accent colors
 - Font family selection
 - Background color customization
 - Live preview
 
 ### QR Code Generator
+
 - Custom URL input
 - Color customization
 - Size adjustment

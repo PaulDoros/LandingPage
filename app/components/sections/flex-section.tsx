@@ -7,14 +7,14 @@ interface FlexSectionProps {
   isEditing?: boolean;
 }
 
-function RangeInput({ 
-  label, 
-  value, 
-  onChange, 
-  min = 0, 
-  max = 100, 
+function RangeInput({
+  label,
+  value,
+  onChange,
+  min = 0,
+  max = 100,
   step = 1,
-  unit = 'px'
+  unit = 'px',
 }: {
   label: string;
   value: number;
@@ -28,7 +28,10 @@ function RangeInput({
     <div className="space-y-2">
       <div className="flex justify-between">
         <label className="text-sm font-medium">{label}</label>
-        <span className="text-sm text-muted-foreground">{value}{unit}</span>
+        <span className="text-muted-foreground text-sm">
+          {value}
+          {unit}
+        </span>
       </div>
       <input
         type="range"
@@ -43,23 +46,23 @@ function RangeInput({
   );
 }
 
-function ComponentEditor({ 
-  component, 
-  onUpdate 
-}: { 
+function ComponentEditor({
+  component,
+  onUpdate,
+}: {
   component: FlexComponent;
   onUpdate: (updated: FlexComponent) => void;
 }) {
   const updateStyle = <K extends keyof FlexComponent['styles']>(
     key: K,
-    value: FlexComponent['styles'][K]
+    value: FlexComponent['styles'][K],
   ) => {
     onUpdate({
       ...component,
       styles: {
         ...component.styles,
-        [key]: value
-      }
+        [key]: value,
+      },
     });
   };
 
@@ -67,8 +70,10 @@ function ComponentEditor({
     <div className="space-y-4 rounded-lg border p-4">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-medium">{component.type}</h3>
-        <button 
-          onClick={() => {/* Add remove handler */}} 
+        <button
+          onClick={() => {
+            /* Add remove handler */
+          }}
           className="text-sm text-red-500 hover:text-red-600"
         >
           Remove
@@ -79,10 +84,12 @@ function ComponentEditor({
       {component.type === 'text' && (
         <textarea
           value={component.content.text}
-          onChange={(e) => onUpdate({
-            ...component,
-            content: { ...component.content, text: e.target.value }
-          })}
+          onChange={(e) =>
+            onUpdate({
+              ...component,
+              content: { ...component.content, text: e.target.value },
+            })
+          }
           className="w-full rounded-md border p-2"
           rows={3}
         />
@@ -96,7 +103,7 @@ function ComponentEditor({
           onChange={(value) => updateStyle('width', value)}
           unit="%"
         />
-        
+
         {component.type !== 'spacer' && (
           <>
             <RangeInput
@@ -135,12 +142,19 @@ function ComponentEditor({
           <RangeInput
             label="Margin Top"
             value={component.styles.margin.top}
-            onChange={(value) => updateStyle('margin', { ...component.styles.margin, top: value })}
+            onChange={(value) =>
+              updateStyle('margin', { ...component.styles.margin, top: value })
+            }
           />
           <RangeInput
             label="Margin Bottom"
             value={component.styles.margin.bottom}
-            onChange={(value) => updateStyle('margin', { ...component.styles.margin, bottom: value })}
+            onChange={(value) =>
+              updateStyle('margin', {
+                ...component.styles.margin,
+                bottom: value,
+              })
+            }
           />
         </div>
       </div>
@@ -148,7 +162,11 @@ function ComponentEditor({
   );
 }
 
-export function FlexSection({ content, themeStyles, isEditing = false }: FlexSectionProps) {
+export function FlexSection({
+  content,
+  themeStyles,
+  isEditing = false,
+}: FlexSectionProps) {
   const [components, setComponents] = useState(content.components);
 
   const addComponent = (type: FlexComponent['type']) => {
@@ -159,14 +177,14 @@ export function FlexSection({ content, themeStyles, isEditing = false }: FlexSec
       styles: {
         width: 100,
         margin: { top: 0, right: 0, bottom: 0, left: 0 },
-        padding: { top: 0, right: 0, bottom: 0, left: 0 }
-      }
+        padding: { top: 0, right: 0, bottom: 0, left: 0 },
+      },
     };
     setComponents([...components, newComponent]);
   };
 
   const updateComponent = (id: string, updated: FlexComponent) => {
-    setComponents(components.map(c => c.id === id ? updated : c));
+    setComponents(components.map((c) => (c.id === id ? updated : c)));
   };
 
   const renderComponent = (component: FlexComponent) => {
@@ -177,24 +195,34 @@ export function FlexSection({ content, themeStyles, isEditing = false }: FlexSec
       marginBottom: component.styles.margin.bottom,
       marginLeft: component.styles.margin.left,
       padding: `${component.styles.padding.top}px ${component.styles.padding.right}px ${component.styles.padding.bottom}px ${component.styles.padding.left}px`,
-      fontSize: component.styles.fontSize ? `${component.styles.fontSize}px` : undefined,
+      fontSize: component.styles.fontSize
+        ? `${component.styles.fontSize}px`
+        : undefined,
       fontWeight: component.styles.fontWeight,
       lineHeight: component.styles.lineHeight,
-      letterSpacing: component.styles.letterSpacing ? `${component.styles.letterSpacing}px` : undefined,
+      letterSpacing: component.styles.letterSpacing
+        ? `${component.styles.letterSpacing}px`
+        : undefined,
       textAlign: component.styles.textAlign,
       color: component.styles.textColor || themeStyles?.text,
       backgroundColor: component.styles.backgroundColor,
-      borderWidth: component.styles.borderWidth ? `${component.styles.borderWidth}px` : undefined,
+      borderWidth: component.styles.borderWidth
+        ? `${component.styles.borderWidth}px`
+        : undefined,
       borderColor: component.styles.borderColor,
       borderStyle: component.styles.borderStyle,
-      borderRadius: component.styles.borderRadius ? `${component.styles.borderRadius}px` : undefined,
-      opacity: component.styles.opacity ? component.styles.opacity / 100 : undefined,
-      boxShadow: component.styles.shadow ? 
-        `${component.styles.shadow.x}px ${component.styles.shadow.y}px ${component.styles.shadow.blur}px ${component.styles.shadow.spread}px ${component.styles.shadow.color}` : 
-        undefined,
-      transition: component.styles.transition ? 
-        `${component.styles.transition.property} ${component.styles.transition.duration}ms ${component.styles.transition.timing}` : 
-        undefined,
+      borderRadius: component.styles.borderRadius
+        ? `${component.styles.borderRadius}px`
+        : undefined,
+      opacity: component.styles.opacity
+        ? component.styles.opacity / 100
+        : undefined,
+      boxShadow: component.styles.shadow
+        ? `${component.styles.shadow.x}px ${component.styles.shadow.y}px ${component.styles.shadow.blur}px ${component.styles.shadow.spread}px ${component.styles.shadow.color}`
+        : undefined,
+      transition: component.styles.transition
+        ? `${component.styles.transition.property} ${component.styles.transition.duration}ms ${component.styles.transition.timing}`
+        : undefined,
     } as React.CSSProperties;
 
     switch (component.type) {
@@ -204,9 +232,9 @@ export function FlexSection({ content, themeStyles, isEditing = false }: FlexSec
         return <p style={style}>{component.content.text}</p>;
       case 'image':
         return (
-          <img 
-            src={component.content.images?.[0]} 
-            alt="" 
+          <img
+            src={component.content.images?.[0]}
+            alt=""
             style={style}
             className="object-cover"
           />
@@ -219,8 +247,8 @@ export function FlexSection({ content, themeStyles, isEditing = false }: FlexSec
         );
       case 'button':
         return (
-          <a 
-            href={component.content.link} 
+          <a
+            href={component.content.link}
             style={style}
             className="inline-block text-center"
           >
@@ -238,18 +266,22 @@ export function FlexSection({ content, themeStyles, isEditing = false }: FlexSec
 
   return (
     <div className="container mx-auto px-4">
-      <div 
-        className={content.layout === 'grid' ? `grid gap-${content.gap || 4} grid-cols-${content.columns || 1}` : 'flex flex-wrap'}
+      <div
+        className={
+          content.layout === 'grid'
+            ? `grid gap-${content.gap || 4} grid-cols-${content.columns || 1}`
+            : 'flex flex-wrap'
+        }
         style={{ gap: content.gap }}
       >
-        {components.map(component => (
-          <div key={component.id} className="relative group">
+        {components.map((component) => (
+          <div key={component.id} className="group relative">
             {renderComponent(component)}
             {isEditing && (
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-black/5">
-                <ComponentEditor 
-                  component={component} 
-                  onUpdate={(updated) => updateComponent(component.id, updated)} 
+              <div className="absolute inset-0 bg-black/5 opacity-0 transition-opacity group-hover:opacity-100">
+                <ComponentEditor
+                  component={component}
+                  onUpdate={(updated) => updateComponent(component.id, updated)}
                 />
               </div>
             )}
@@ -259,33 +291,33 @@ export function FlexSection({ content, themeStyles, isEditing = false }: FlexSec
 
       {isEditing && (
         <div className="mt-8 flex gap-4">
-          <button 
+          <button
             onClick={() => addComponent('heading')}
-            className="rounded-md bg-primary px-4 py-2 text-sm text-white"
+            className="bg-primary rounded-md px-4 py-2 text-sm text-white"
           >
             Add Heading
           </button>
-          <button 
+          <button
             onClick={() => addComponent('text')}
-            className="rounded-md bg-primary px-4 py-2 text-sm text-white"
+            className="bg-primary rounded-md px-4 py-2 text-sm text-white"
           >
             Add Text
           </button>
-          <button 
+          <button
             onClick={() => addComponent('image')}
-            className="rounded-md bg-primary px-4 py-2 text-sm text-white"
+            className="bg-primary rounded-md px-4 py-2 text-sm text-white"
           >
             Add Image
           </button>
-          <button 
+          <button
             onClick={() => addComponent('button')}
-            className="rounded-md bg-primary px-4 py-2 text-sm text-white"
+            className="bg-primary rounded-md px-4 py-2 text-sm text-white"
           >
             Add Button
           </button>
-          <button 
+          <button
             onClick={() => addComponent('spacer')}
-            className="rounded-md bg-primary px-4 py-2 text-sm text-white"
+            className="bg-primary rounded-md px-4 py-2 text-sm text-white"
           >
             Add Spacer
           </button>
@@ -293,4 +325,4 @@ export function FlexSection({ content, themeStyles, isEditing = false }: FlexSec
       )}
     </div>
   );
-} 
+}

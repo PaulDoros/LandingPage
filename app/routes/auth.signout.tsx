@@ -10,7 +10,7 @@ export async function action({ request }: ActionFunctionArgs) {
   const supabase = createServerClient(
     process.env.SUPABASE_URL!,
     process.env.SUPABASE_ANON_KEY!,
-    { request, response }
+    { request, response },
   );
 
   await supabase.auth.signOut();
@@ -18,4 +18,4 @@ export async function action({ request }: ActionFunctionArgs) {
   return redirect('/authenticate/admin', {
     headers: response.headers,
   });
-} 
+}

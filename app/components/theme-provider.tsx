@@ -55,7 +55,10 @@ interface ThemeProviderProps {
   theme?: ThemeContextType;
 }
 
-export function ThemeProvider({ children, theme = defaultTheme }: ThemeProviderProps) {
+export function ThemeProvider({
+  children,
+  theme = defaultTheme,
+}: ThemeProviderProps) {
   const themeValue = theme || defaultTheme;
 
   // Create CSS variables for the theme
@@ -75,9 +78,12 @@ export function ThemeProvider({ children, theme = defaultTheme }: ThemeProviderP
 
   return (
     <ThemeContext.Provider value={themeValue}>
-      <div style={cssVariables} className="min-h-screen bg-[var(--color-background)] text-[var(--color-text)]">
+      <div
+        style={cssVariables}
+        className="min-h-screen bg-[var(--color-background)] text-[var(--color-text)]"
+      >
         {children}
       </div>
     </ThemeContext.Provider>
   );
-} 
+}

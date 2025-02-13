@@ -5,23 +5,23 @@ interface FeaturesSectionProps {
   themeStyles?: ThemeStyles;
 }
 
-export function FeaturesSection({ content, themeStyles }: FeaturesSectionProps) {
+export function FeaturesSection({
+  content,
+  themeStyles,
+}: FeaturesSectionProps) {
   const { title, subtitle, features } = content;
 
   return (
     <div className="container mx-auto px-4">
       <div className="space-y-12 py-12 md:py-16 lg:py-24">
         <div className="space-y-4 text-center">
-          <h2 
+          <h2
             className="text-3xl font-bold md:text-4xl"
             style={{ color: themeStyles?.text }}
           >
             {title}
           </h2>
-          <p 
-            className="text-xl"
-            style={{ color: themeStyles?.text }}
-          >
+          <p className="text-xl" style={{ color: themeStyles?.text }}>
             {subtitle}
           </p>
         </div>
@@ -33,7 +33,7 @@ export function FeaturesSection({ content, themeStyles }: FeaturesSectionProps) 
               style={{
                 backgroundColor: themeStyles?.background,
                 borderColor: `${themeStyles?.text}20`,
-                color: themeStyles?.text
+                color: themeStyles?.text,
               }}
             >
               <div className="mb-4">
@@ -44,16 +44,13 @@ export function FeaturesSection({ content, themeStyles }: FeaturesSectionProps) 
                   style={{ color: themeStyles?.primary }}
                 />
               </div>
-              <h3 
+              <h3
                 className="mb-2 text-xl font-semibold"
                 style={{ color: themeStyles?.text }}
               >
                 {feature.title}
               </h3>
-              <p 
-                className="text-base"
-                style={{ color: themeStyles?.text }}
-              >
+              <p className="text-base" style={{ color: themeStyles?.text }}>
                 {feature.description}
               </p>
             </div>
@@ -62,4 +59,4 @@ export function FeaturesSection({ content, themeStyles }: FeaturesSectionProps) 
       </div>
     </div>
   );
-} 
+}
